@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>LoadFileActivity.qml</file>
+        <file>AlgoProcessActivity.qml</file>
+    </qresource>
+</RCC>
