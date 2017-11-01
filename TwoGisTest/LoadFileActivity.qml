@@ -37,7 +37,9 @@ Item {
 			var tmpUrl = fileDialog.fileUrl.toString()
 			visible = false
 			stack.push(fileprocessView)
-			fparser.startParsing(tmpUrl.substring(7, tmpUrl.length))
+			//algo.function()
+			algo.startAlgo(tmpUrl.substring(7, tmpUrl.length))
+			//fparser.startParsing(tmpUrl.substring(7, tmpUrl.length))
 		}
 		onRejected: {
 			console.log("Canceled")

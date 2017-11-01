@@ -36,33 +36,25 @@ Item {
 			}
 			Text {
 				id: parsedUniqueWordsCount
-				text: "55555555555555555"
+				color: "white"
+			}
+			Text {
+				id: algoResult
 				color: "white"
 			}
 
 		}
 
 
-
-
-//		Button {
-//			x: 300
-//			width: 100
-//			height: 100
-//			text: "yyyyy"
-//			anchors.fill: parent
-//			onClicked: fparser.startParsing("777")
-
-//		}
-
-
-
-
 	}
 
 
 	Connections {
-	target: fparser
+	target: algo
+
+	onAlgoFinished: {
+	  result ?	algoResult.text = "Файл обработан" : "Файл не обработан"
+	}
 
 	onLineProcessed: {
 
@@ -73,6 +65,8 @@ Item {
 		console.log("onLineProcessed  " + totalStringsCount)
 
 	}
+
+
 
 
 	}

@@ -9,11 +9,16 @@ HashAlgo::HashAlgo()
 }
 
 
-void HashAlgo::parseFile(const QString &name) {
+void HashAlgo::startAlgo(const QString &name) {
     name_ = name;
-
+    stopped = false;
     start();
 
+
+}
+void HashAlgo::stopAlgo() {
+    stopped = true;
+    emit algoFinished(false);
 
 }
 
@@ -29,15 +34,13 @@ void HashAlgo::run() {
         return;
     }
 
-
-
     QTextStream in{&file};
-
-
-
    long totalStringsCount_ = 0, totalWordsCount_ = 0;
 
    while (!in.atEnd()) {
+
+       if (stopped)
+           return;
 
        QString line = in.readLine();
        line.remove(QChar(','));
@@ -55,5 +58,7 @@ void HashAlgo::run() {
 
        emit lineProcessed(totalStringsCount_, totalWordsCount_, hashWords.size());
    }
+
+   emit algoFinished(true);
 
 }

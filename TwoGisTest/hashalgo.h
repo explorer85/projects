@@ -6,12 +6,15 @@
 
 class HashAlgo : public AbstractAlgo
 {
+    Q_OBJECT
 public:
     HashAlgo();
-     void parseFile(const QString &name) override final;
+     Q_INVOKABLE void startAlgo(const QString &name) override final;
+     Q_INVOKABLE void stopAlgo() override final;
 private:
      void run();
      QString  name_;
+     bool stopped{false};
 
 };
 
