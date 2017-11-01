@@ -16,7 +16,6 @@ Item {
 			height: 100
 			text: "Назад"
 			anchors.centerIn: parent
-
 		}
 
 
@@ -27,11 +26,17 @@ Item {
 			spacing: 2
 			Text {
 				id: parsedStringsCount
+				color: "white"
 			}
 
 			Text {
 				id: parsedWordsCount
+				color: "white"
 
+			}
+			Text {
+				id: uniqueWordsCount
+				color: "white"
 			}
 		}
 
@@ -61,6 +66,7 @@ Item {
 
 		parsedStringsCount.text = "Строк обработано:" + parseInt(totalStringsCount)
 		parsedWordsCount.text = "Слов найдено: " + parseInt(totalWordsCount)
+		uniqueWordsCount.text = "Уникальных слов найдено: "
 		console.log("onLineProcessed  " + totalStringsCount)
 
 	}

@@ -1,6 +1,8 @@
 #include "fileparser.h"
 #include <QDebug>
-#include <QFile>
+
+
+#include "hashalgo.h"
 
 FileParser::FileParser(QObject *parent) : QObject(parent)
 {
@@ -10,23 +12,25 @@ FileParser::FileParser(QObject *parent) : QObject(parent)
 void FileParser::startParsing(const QString &path) {
     qDebug() << "startParsing" << path;
 
-    QFile file{path};
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "filenotopen";
-        return;
-    }
 
-    static long totalStringsCount_ = 0, totalWordsCount_ = 0;
 
-    QTextStream in{&file};
-    while (!in.atEnd()) {
-        QString line = in.readLine();
-        totalStringsCount_ ++;
-        for (int i=0; i<10000; i++)
-            int b = 0;
+    AbstractAlgo *algo = new HashAlgo;
+    connect(algo, &HashAlgo::lineProcessed, [=]
+            (long totalStringsCount, long totalWordsCount, long uniqueWordsCoint) {
+        emit lineProcessed(totalStringsCount, totalWordsCount);
+    });
+    algo->parseFile(path);
 
-        emit lineProcessed(totalStringsCount_, totalWordsCount_);
 
-    }
+   // static long totalStringsCount_ = 0, totalWordsCount_ = 0;
+//    while (!in.atEnd()) {
+//        QString line = in.readLine();
+//        totalStringsCount_ ++;
+//        for (int i=0; i<10000; i++)
+//            int b = 0;
+
+    //    emit lineProcessed(totalStringsCount_, totalWordsCount_);
+
+  //  }
 
 }
