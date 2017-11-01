@@ -17,7 +17,7 @@ void FileParser::startParsing(const QString &path) {
     AbstractAlgo *algo = new HashAlgo;
     connect(algo, &HashAlgo::lineProcessed, [=]
             (long totalStringsCount, long totalWordsCount, long uniqueWordsCoint) {
-        emit lineProcessed(totalStringsCount, totalWordsCount);
+        emit lineProcessed(totalStringsCount, totalWordsCount, uniqueWordsCoint);
     });
     algo->parseFile(path);
 

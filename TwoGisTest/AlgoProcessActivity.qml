@@ -35,9 +35,11 @@ Item {
 
 			}
 			Text {
-				id: uniqueWordsCount
+				id: parsedUniqueWordsCount
+				text: "55555555555555555"
 				color: "white"
 			}
+
 		}
 
 
@@ -64,9 +66,10 @@ Item {
 
 	onLineProcessed: {
 
-		parsedStringsCount.text = "Строк обработано:" + parseInt(totalStringsCount)
-		parsedWordsCount.text = "Слов найдено: " + parseInt(totalWordsCount)
-		uniqueWordsCount.text = "Уникальных слов найдено: "
+		parsedStringsCount.text = "Строк обработано:" + parseInt(totalStringsCount);
+		parsedWordsCount.text = "Слов найдено: " + parseInt(totalWordsCount);
+		parsedUniqueWordsCount.text = "Уникальных слов найдено: " + parseInt(uniqueWordsCount);
+
 		console.log("onLineProcessed  " + totalStringsCount)
 
 	}

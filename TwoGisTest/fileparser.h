@@ -11,7 +11,7 @@ public:
     Q_INVOKABLE void startParsing(const QString &path);
 
 signals:
-    void lineProcessed(long totalStringsCount, long totalWordsCount);
+    void lineProcessed(long totalStringsCount, long totalWordsCount, long uniqueWordsCount);
 
 public slots:
 };

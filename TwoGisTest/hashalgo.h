@@ -3,6 +3,7 @@
 
 #include "abstractalgo.h"
 
+
 class HashAlgo : public AbstractAlgo
 {
 public:
@@ -11,6 +12,7 @@ public:
 private:
      void run();
      QString  name_;
+
 };
 
 #endif // HASHALGO_H
