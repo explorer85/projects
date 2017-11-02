@@ -11,7 +11,7 @@ class HashAlgo : public AbstractAlgo
     Q_OBJECT
 public:
     HashAlgo();
-    ~HashAlgo() { qDebug() << "~HashAlgo1 ";
+    ~HashAlgo() { qDebug() << "~HashAlgo";
 
 
                 }

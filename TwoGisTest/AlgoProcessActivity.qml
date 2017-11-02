@@ -4,7 +4,6 @@ import QtQuick.Controls 2.0
 Item {
 	property alias btn_back: btn_back
 
-
 	Rectangle {
 		anchors.fill: parent
 		color: "blue"
@@ -49,6 +48,8 @@ Item {
 	}
 
 
+
+
 	Connections {
 	target: algo
 
@@ -67,8 +68,19 @@ Item {
 	}
 
 
+	}
 
+	Connections {
+		target: stack
+		onCurrentItemChanged: {
+			if (stack.currentItem == fileprocessView) {
+				parsedStringsCount.text =
+				parsedWordsCount.text  =
+				parsedUniqueWordsCount.text =
+				algoResult.text = ""
 
+			}
+		}
 	}
 
 }

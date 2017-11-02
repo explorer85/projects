@@ -61,7 +61,6 @@ Item {
 			stack.push(fileprocessView)
 			//algo.function()
 			algo.startAlgo(tmpUrl.substring(7, tmpUrl.length))
-			//fparser.startParsing(tmpUrl.substring(7, tmpUrl.length))
 		}
 		onRejected: {
 			console.log("Canceled")

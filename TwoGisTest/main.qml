@@ -15,12 +15,12 @@ ApplicationWindow {
 		anchors.fill: parent
 		initialItem: fileLoadView
 
+
 		AlgoProcessActivity {
 			id : fileprocessView
 			btn_back.onClicked: {
 				algo.stopAlgo()
 				stack.pop()
-
 			}
 		}
 		LoadFileActivity {

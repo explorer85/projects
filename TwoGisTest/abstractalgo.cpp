@@ -5,26 +5,27 @@
 AbstractAlgo::~AbstractAlgo()  {
 
     qDebug() << "~AbstractAlgo ";
-    quit();
-#if QT_VERSION >= QT_VERSION_CHECK(5,2,0)
-    requestInterruption();
-#endif
-    wait();
+    stopAlgo();
+    wait(); //ждем пока завершиться поток олгоритма
+
+    while (isRunning());
 
 }
 
 
 void AbstractAlgo::startAlgo(const QString &name) {
+
+    if (isRunning())
+        return;
     name_ = name;
     stopped = false;
     start();
 
-
 }
 
 void AbstractAlgo::stopAlgo() {
+
     stopped = true;
     emit algoFinished(false);
-
 }
 

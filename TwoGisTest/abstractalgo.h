@@ -19,7 +19,7 @@ signals:
 
 protected:
     QString  name_;
-    bool stopped{false};
+    bool stopped{true};
 
 };
 
