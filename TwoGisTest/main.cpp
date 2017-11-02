@@ -3,6 +3,9 @@
 #include <QQmlContext>
 
 #include <hashalgo.h>
+#include <unorderedmapalgo.h>
+
+#include "algomanager.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,15 +14,13 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-
-    AbstractAlgo *algo = new HashAlgo();
-    engine.rootContext()->setContextProperty("algo", algo);
+    AlgoManager *amanager = new AlgoManager(engine.rootContext());
+    engine.rootContext()->setContextProperty("amanager", amanager);
 
 
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
-
 
 
     return app.exec();

@@ -2,6 +2,8 @@
 #define HASHALGO_H
 
 #include "abstractalgo.h"
+#include "abstractalgocreator.h"
+#include <QDebug>
 
 
 class HashAlgo : public AbstractAlgo
@@ -9,13 +11,18 @@ class HashAlgo : public AbstractAlgo
     Q_OBJECT
 public:
     HashAlgo();
-     Q_INVOKABLE void startAlgo(const QString &name) override final;
-     Q_INVOKABLE void stopAlgo() override final;
+    ~HashAlgo() { qDebug() << "~HashAlgo "; }
 private:
      void run();
-     QString  name_;
-     bool stopped{false};
-
 };
+
+class HashAlgoCreator : public AbstractAlgoCreator
+{
+public:
+    AbstractAlgo* create();
+    QString getType();
+};
+
+
 
 #endif // HASHALGO_H

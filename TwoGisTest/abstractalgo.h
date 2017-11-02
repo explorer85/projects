@@ -8,11 +8,17 @@
 class AbstractAlgo : public QThread {
     Q_OBJECT
 public:
-    virtual void startAlgo(const QString &fileName) = 0;
-    virtual void stopAlgo() = 0;
+    Q_INVOKABLE virtual void startAlgo(const QString &fileName);
+    Q_INVOKABLE virtual void stopAlgo();
+    virtual ~AbstractAlgo() = default;
+    virtual void run() = 0; //переопределить и создать реализацию алгоритма здесь
 signals:
     void lineProcessed(long totalStringsCount, long totalWordsCount, long uniqueWordsCount); //должен генерироваться после обработки строки
     void algoFinished(bool result); //должен генерироваться при завершении работы алгоритма
+
+protected:
+    QString  name_;
+    bool stopped{false};
 
 };
 

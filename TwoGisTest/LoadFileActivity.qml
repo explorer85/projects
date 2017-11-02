@@ -13,6 +13,7 @@ Item {
 		anchors.fill: parent
 
 		Button {
+			id: btnLoad
 			width: 100
 			height: 100
 			text: "Открыть \n файл"
@@ -20,10 +21,31 @@ Item {
 			anchors.centerIn: parent
 			onClicked: {
 				fileDialog.visible = true
+				//console.log(amanager.getAlgoList())
 
 			}
 		}
+
+
+		ComboBox {
+			anchors.top: btnLoad.bottom
+			anchors.horizontalCenter: btnLoad.horizontalCenter
+			anchors.topMargin: 10
+			width: 200
+			editable: false
+			model:amanager.getAlgoList()
+			onActivated: {
+				//console.log(model[index])
+				amanager.createAlgo(model[index])
+
+			}
+			Component.onCompleted: {
+				amanager.createAlgo(model[currentIndex])
+			}
+		}
 	}
+
+
 
 
 	FileDialog {

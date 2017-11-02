@@ -1,17 +1,17 @@
-#include "hashalgo.h"
+#include "unorderedmapalgo.h"
 #include <QDebug>
 #include <QFile>
 
-HashAlgo::HashAlgo()
-
+UnorderedmapAlgo::UnorderedmapAlgo()
 {
-   qDebug() << "HashAlgo";
+    qDebug() << "UnorderedmapAlgo";
 }
 
 
-void HashAlgo::run() {
 
-    qDebug() << "HashAlgo::run";
+void UnorderedmapAlgo::run() {
+
+    qDebug() << "UnorderedmapAlgo::run";
 
     QHash<QString /*word*/, long /*count*/> hashWords;
 
@@ -31,7 +31,7 @@ void HashAlgo::run() {
 
        QString line = in.readLine();
        line.remove(QChar(','));
-       qDebug() << "HashAlgo::run" << line;
+       qDebug() << "UnorderedmapAlgo::run" << line;
        QStringList sline = line.split(" ");
        totalStringsCount_ ++;
        totalWordsCount_+=sline.size();
@@ -53,9 +53,10 @@ void HashAlgo::run() {
 
 
 
-AbstractAlgo *HashAlgoCreator::create()  {
-    return new HashAlgo();
+
+AbstractAlgo *UnorderedmapAlgoCreator::create()  {
+    return new UnorderedmapAlgo();
 }
-QString HashAlgoCreator::getType() {
-    return "HashAlgo";
+QString UnorderedmapAlgoCreator::getType() {
+    return "UnorderedmapAlgo";
 }

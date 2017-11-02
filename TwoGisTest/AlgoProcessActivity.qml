@@ -62,7 +62,7 @@ Item {
 		parsedWordsCount.text = "Слов найдено: " + parseInt(totalWordsCount);
 		parsedUniqueWordsCount.text = "Уникальных слов найдено: " + parseInt(uniqueWordsCount);
 
-		console.log("onLineProcessed  " + totalStringsCount)
+		//console.log("onLineProcessed  " + totalStringsCount)
 
 	}
 
