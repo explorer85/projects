@@ -15,7 +15,7 @@ public:
     virtual void run() = 0; //переопределить и создать реализацию алгоритма здесь
 signals:
     void lineProcessed(long totalStringsCount, long totalWordsCount, long uniqueWordsCount); //должен генерироваться после обработки строки
-    void algoFinished(bool result); //должен генерироваться при завершении работы алгоритма
+    void algoFinished(int time); //должен генерироваться при завершении работы алгоритма
 
 protected:
     QString  name_;

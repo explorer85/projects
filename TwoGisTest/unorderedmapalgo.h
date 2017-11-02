@@ -21,7 +21,7 @@ class UnorderedmapAlgoCreator : public AbstractAlgoCreator
 {
 public:
     AbstractAlgo* create();
-    QString getType();
+    QString getType() const;
 };
 
 #endif // UNORDEREDMAPALGO_H

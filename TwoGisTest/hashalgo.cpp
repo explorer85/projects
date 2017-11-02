@@ -1,6 +1,7 @@
 #include "hashalgo.h"
 #include <QDebug>
 #include <QFile>
+#include <QDateTime>
 
 HashAlgo::HashAlgo()
 
@@ -12,6 +13,8 @@ HashAlgo::HashAlgo()
 void HashAlgo::run() {
 
     qDebug() << "HashAlgo::run";
+
+    int startTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
     QHash<QString /*word*/, long /*count*/> hashWords;
 
@@ -46,7 +49,9 @@ void HashAlgo::run() {
        emit lineProcessed(totalStringsCount_, totalWordsCount_, hashWords.size());
    }
 
-   emit algoFinished(true);
+
+   int endTime = QDateTime::currentDateTime().toMSecsSinceEpoch() - startTime;
+   emit algoFinished(endTime);
 
 }
 
@@ -56,6 +61,6 @@ void HashAlgo::run() {
 AbstractAlgo *HashAlgoCreator::create()  {
     return new HashAlgo();
 }
-QString HashAlgoCreator::getType() {
+QString HashAlgoCreator::getType() const {
     return "HashAlgo";
 }

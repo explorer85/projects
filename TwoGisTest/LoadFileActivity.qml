@@ -57,10 +57,12 @@ Item {
 		onAccepted: {
 			//console.log("You chose: " + fileDialog.fileUrl)
 			var tmpUrl = fileDialog.fileUrl.toString()
-			visible = false
-			stack.push(fileprocessView)
-			//algo.function()
-			algo.startAlgo(tmpUrl.substring(7, tmpUrl.length))
+			if (tmpUrl) {
+				visible = false
+				stack.push(fileprocessView)
+				//algo.function()
+				algo.startAlgo(tmpUrl.substring(7, tmpUrl.length))
+			}
 		}
 		onRejected: {
 			console.log("Canceled")

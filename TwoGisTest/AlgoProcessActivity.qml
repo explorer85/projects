@@ -54,7 +54,7 @@ Item {
 	target: algo
 
 	onAlgoFinished: {
-	  result ?	algoResult.text = "Файл обработан" : "Файл не обработан"
+	  time ?	algoResult.text = "Файл обработан за - "  + time + "мс" : "Файл не обработан"
 	}
 
 	onLineProcessed: {

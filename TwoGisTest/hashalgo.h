@@ -23,7 +23,7 @@ class HashAlgoCreator : public AbstractAlgoCreator
 {
 public:
     AbstractAlgo* create();
-    QString getType();
+    QString getType() const;
 };
 
 
