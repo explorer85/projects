@@ -17,4 +17,5 @@ QStringList AlgoManager::getAlgoList() {
 void  AlgoManager::createAlgo(const QString &type) {
     selectedAlgo.reset(algolist.value(type)->create());
     cnt_->setContextProperty("algo", selectedAlgo.data());
+
 }

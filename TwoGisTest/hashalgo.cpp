@@ -31,7 +31,7 @@ void HashAlgo::run() {
 
        QString line = in.readLine();
        line.remove(QChar(','));
-       qDebug() << "HashAlgo::run" << line;
+       //qDebug() << "HashAlgo::run" << line;
        QStringList sline = line.split(" ");
        totalStringsCount_ ++;
        totalWordsCount_+=sline.size();

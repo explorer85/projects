@@ -4,13 +4,14 @@
 #include <QObject>
 #include <QTextStream>
 #include <QThread>
+#include <QDebug>
 
 class AbstractAlgo : public QThread {
     Q_OBJECT
 public:
     Q_INVOKABLE virtual void startAlgo(const QString &fileName);
     Q_INVOKABLE virtual void stopAlgo();
-    virtual ~AbstractAlgo() = default;
+    ~AbstractAlgo();
     virtual void run() = 0; //переопределить и создать реализацию алгоритма здесь
 signals:
     void lineProcessed(long totalStringsCount, long totalWordsCount, long uniqueWordsCount); //должен генерироваться после обработки строки

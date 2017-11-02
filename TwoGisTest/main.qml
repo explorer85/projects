@@ -20,6 +20,7 @@ ApplicationWindow {
 			btn_back.onClicked: {
 				algo.stopAlgo()
 				stack.pop()
+
 			}
 		}
 		LoadFileActivity {
