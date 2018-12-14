@@ -1,33 +1,9 @@
 #include <QCoreApplication>
 
-#include <QDebug>
 
-class Base {
-public:
-	virtual ~Base() = default;
-	void test() {}
-};
+#include "interface.h"
 
-class IRenderable : virtual public Base {
-public:
-	virtual void render() = 0;
-};
 
-class Inputable : virtual public Base {
-	public:
-	virtual void input(int mouse) = 0;
-};
-
-class MapObject : public IRenderable, public Inputable {
-public:
-	void render() {  qDebug() << "MapObject::render"; }
-	void input(int /*mouse*/) { qDebug() << "MapObject::input";  }
-};
-
-class Gridbject : public IRenderable {
-public:
-	void render() { qDebug() << "Gridbject::render";  }
-};
 
 
 class Engine {
@@ -85,7 +61,7 @@ int main(int argc, char *argv[])
 	MapObject *map = new MapObject();
 	Gridbject *grid = new Gridbject();
 
-   Inputable* res = (Inputable*)(grid);
+ //  Inputable* res = (Inputable*)(grid);
 
 	Engine e;
 //	e.addObject<MapObject*>(map);
@@ -97,10 +73,6 @@ int main(int argc, char *argv[])
 
 	e.update();
 
-
-//	for (Base* ptr : objects) {
-//		ptr
-//	}
 
 	return a.exec();
 }
