@@ -8,24 +8,38 @@
 
 //namespace components {
 
+class Node;
 
 class Component : public QObject {
 	Q_OBJECT
- public:
 
+	friend class Node;
+ public:
+	Node* getNode() { return node_; }
+ protected:
+	/// Set scene node. Called by Node when creating the component.
+	void SetNode(Node* node) { node_ =  node;  }
+
+ private:
 	QString type_;
+	/// Scene node.
+	Node* node_;
 };
-class Drawable : public Component {
-	Q_OBJECT
-public:
-	void draw() { qDebug() << "Drawable::draw()"; }
-};
+
 
 class Pickable : public Component {
 	Q_OBJECT
 public:
 	void picking() { qDebug() << "Pickable::picking()"; }
 };
+
+class Drawable : public Component {
+	Q_OBJECT
+public:
+	virtual void draw() { qDebug() << "Drawable::draw()"; }
+};
+
+
 
 
 
@@ -35,12 +49,14 @@ class Node {
 public:
 	template <class T>
 	void addComponent(Component* comp) {
+		comp->SetNode(this);
 		components_.insert(T::staticMetaObject.className(), comp);
 	}
 
 	/// Return component by type. If there are several, returns the first.
 	Component* GetComponent(QString type) const {
-		return components_.value(type);
+		 Component* comp =  components_.value(type);
+		return comp;
 
 	}
 
@@ -48,12 +64,20 @@ public:
 	T* GetComponent() const
 	{
 		qDebug() <<  T::staticMetaObject.className();
-		return static_cast<T*>(GetComponent(T::staticMetaObject.className()));
+		T* comp = static_cast<T*>(GetComponent(T::staticMetaObject.className()));
+		if (comp == nullptr)
+			Q_ASSERT(false);
+
+		return comp;
 	}
+private:
+
 
 	QMap<QString, Component*> components_;
 
 };
+
+
 
 class Engine {
 public:

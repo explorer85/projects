@@ -72,12 +72,13 @@ int main(int argc, char *argv[])
 
 	{
 
-	Component *cc =	n.GetComponent(Drawable::staticMetaObject.className());
-	cc = new Component();
-	Drawable *draw = static_cast<Drawable*>(cc);
+//	Component *cc =	n.GetComponent(Drawable::staticMetaObject.className());
+//	cc = new Component();
+//	Drawable *draw = static_cast<Drawable*>(cc);
 
 
 	Drawable *drawable = n.GetComponent<Drawable>();
+	drawable->getNode()->GetComponent<Pickable>()->picking();
 	drawable->draw();
 
 	Pickable *pickable = n.GetComponent<Pickable>();
