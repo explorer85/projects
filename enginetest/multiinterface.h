@@ -3,6 +3,10 @@
 
 #include <QDebug>
 
+namespace multiinterface {
+
+
+
 class Base /*:*/ /*public QObject*/ {
 public:
 	virtual ~Base() = default;
@@ -33,5 +37,39 @@ class Gridbject : public QObject, public IRenderable {
 public:
 	void render() { qDebug() << "Gridbject::render";  }
 };
+
+
+
+class Engine {
+public:
+	void addObject(Base* obj) {
+
+		objects.push_back(obj);
+		//obj->input(5);
+		if (IRenderable* ir = dynamic_cast<IRenderable*>(obj)) {
+			irobjects.push_back(ir);
+		}
+		if (Inputable* ii = dynamic_cast<Inputable*>(obj)) {
+			iiobjects.push_back(ii);
+		}
+	}
+
+	void update() {
+			for (IRenderable* ptr : irobjects) {
+				ptr->render();
+			}
+
+			for (Inputable* ptr : iiobjects) {
+				ptr->input(5);
+			}
+	}
+
+	std::vector<IRenderable*> irobjects;
+	std::vector<Inputable*> iiobjects;
+	std::vector<Base*> objects;
+
+};
+
+}
 
 #endif // INTERFACE_H

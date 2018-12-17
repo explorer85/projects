@@ -16,7 +16,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-    interface.cpp
+    crtp.cpp \
+    multiinterface.cpp \
+    components.cpp
 
 HEADERS += \
-    interface.h
+    crtp.h \
+    multiinterface.h \
+    components.h
