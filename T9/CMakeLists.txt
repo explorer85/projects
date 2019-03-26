@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(t9 VERSION 0.0.1)
 
-set(SOURCES main.cpp)
+set(SOURCES main.cpp message_parser.h)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
