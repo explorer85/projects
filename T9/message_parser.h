@@ -17,9 +17,9 @@ const std::unordered_map<char /*letter*/,
     };
 
 /**
- * @brief parseMessage
- * @param message
- * @return
+ * @brief Converts text to T9
+ * @param message the input text message
+ * @return input text presented in T9
  */
 std::string parseMessage(const std::string &message) {
   std::string output;
