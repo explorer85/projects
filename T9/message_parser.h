@@ -40,4 +40,7 @@ std::string parseMessage(const std::string &message) {
   return output;
 }
 
+// More beautiful solution
+// https://github.com/Nearsoft/google-code-jam/blob/master/solutions/t9-spelling/go/approach3.go
+
 #endif  // MESSAGE_PARSER_H
