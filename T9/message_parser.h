@@ -27,13 +27,15 @@ std::string parseMessage(const std::string &message) {
   for (const auto &letter : message) {
     // if the digital code of the previous character is equal to the current
     // space added
-    if (digit == t9map.at(letter).first) {
-      output.push_back(' ');
+    if (t9map.count(letter) != 0) {  // checking that character is out of range
+      if (digit == t9map.at(letter).first) {
+        output.push_back(' ');
+      }
+      // find the number and repeat its number of times equal to its position on
+      // the button
+      digit = t9map.at(letter).first;
+      for (int i = 0; i < t9map.at(letter).second; i++) output.push_back(digit);
     }
-    // find the number and repeat its number of times equal to its position on
-    // the button
-    digit = t9map.at(letter).first;
-    for (int i = 0; i < t9map.at(letter).second; i++) output.push_back(digit);
   }
   return output;
 }

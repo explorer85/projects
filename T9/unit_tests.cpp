@@ -9,6 +9,12 @@
 #include <gtest/gtest.h>
 #include "message_parser.h"
 namespace {
+class TestT9 : public ::testing::Test {
+ public:
+  void SetUp() override {}
+};
+
+TEST_F(TestT9, testOutOfRange) { EXPECT_EQ("44 444", parseMessage("$hi$")); }
 
 class TestT9DataSet
     : public ::testing::TestWithParam<::std::tuple<std::string, std::string>> {
