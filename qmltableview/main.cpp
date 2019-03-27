@@ -8,7 +8,8 @@ int main(int argc, char *argv[]) {
   QGuiApplication app(argc, argv);
 
   PhoneBookModel m;
-  m.loadModel("input_table.in");
+
+  m.loadModel(QCoreApplication::arguments().at(1));
 
   QQmlApplicationEngine engine;
   engine.rootContext()->setContextProperty("phonebookmodel", &m);

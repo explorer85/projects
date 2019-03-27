@@ -10,18 +10,21 @@ class PhoneBookModel : public QAbstractTableModel {
     QString name;
     QString phone;
   };
-  QList<User> users;
+  using UsersList = QList<User>;
+  UsersList users;
 
   enum UserRole { IdRole = Qt::UserRole + 1, NameRole, PhoneRole };
 
+  UsersList loadFromFile(const QString &fileName);
+
  public:
   PhoneBookModel();
-  void loadModel(QString fileName);
   int rowCount(const QModelIndex &parent = QModelIndex()) const override;
   int columnCount(const QModelIndex &parent = QModelIndex()) const override;
   QVariant data(const QModelIndex &index,
                 int role = Qt::DisplayRole) const override;
   QHash<int, QByteArray> roleNames() const override;
+  void loadModel(const QString &fileName);
 };
 
 #endif  // PHONEBOOKMODEL_H
