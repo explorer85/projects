@@ -4,6 +4,8 @@
 #include <iostream>
 #include <unordered_map>
 
+namespace t9spelling {
+
 const std::unordered_map<char /*letter*/,
                          std::pair<char /*digit*/, short /*btnpos*/>>
     t9map{
@@ -39,6 +41,8 @@ std::string parseMessage(const std::string &message) {
   }
   return output;
 }
+
+}  // namespace t9spelling
 
 // More beautiful solution
 // https://github.com/Nearsoft/google-code-jam/blob/master/solutions/t9-spelling/go/approach3.go

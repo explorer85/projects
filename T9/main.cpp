@@ -18,7 +18,8 @@ int main(int argc, char const *argv[]) {
   for (int i = 1; i <= messagesCount; i++) {
     std::string message;
     std::getline(std::cin, message);
-    std::cout << "Case #" << i << ": " << parseMessage(message) << std::endl;
+    std::cout << "Case #" << i << ": " << t9spelling::parseMessage(message)
+              << std::endl;
   }
 
   return 0;

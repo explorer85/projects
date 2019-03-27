@@ -8,6 +8,8 @@
 
 #include <gtest/gtest.h>
 #include "message_parser.h"
+
+using namespace t9spelling;
 namespace {
 class TestT9 : public ::testing::Test {
  public:
