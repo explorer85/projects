@@ -9,17 +9,34 @@
 #include <gtest/gtest.h>
 #include "message_parser.h"
 namespace {
-class TestT9 : public ::testing::Test {
- public:
-  void SetUp() override {}
+
+class TestT9DataSet
+    : public ::testing::TestWithParam<::std::tuple<std::string, std::string>> {
+  // You can implement all the usual fixture class members here.
+  // To access the test parameter, call GetParam() from class
+  // TestWithParam<T>.
 };
 
-TEST_F(TestT9, testhi) { EXPECT_EQ("44 444", parseMessage("hi")); }
-TEST_F(TestT9, testyes) { EXPECT_EQ("999337777", parseMessage("yes")); }
-TEST_F(TestT9, testfoobar) {
-  EXPECT_EQ("333666 6660 022 2777", parseMessage("foo  bar"));
+using ::testing::Bool;
+using ::testing::Combine;
+using ::testing::Values;
+using ::testing::ValuesIn;
+
+std::vector<std::tuple<std::string, std::string>> v{
+    {"44 444", "hi"},
+    {"999337777", "yes"},
+    {"333666 6660 022 2777", "foo  bar"},
+    {"4433555 555666096667775553", "hello world"}
+
+};
+INSTANTIATE_TEST_SUITE_P(InstantiationName, TestT9DataSet, ValuesIn(v));
+
+TEST_P(TestT9DataSet, testparse) {
+  std::string input;
+  std::string excepted;
+  std::tie(excepted, input) = GetParam();
+  std::string output = parseMessage(input);
+  EXPECT_EQ(excepted, output);
 }
-TEST_F(TestT9, helloworld) {
-  EXPECT_EQ("4433555 555666096667775553", parseMessage("hello world"));
-}
+
 }  // namespace
