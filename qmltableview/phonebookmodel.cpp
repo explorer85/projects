@@ -1,14 +1,11 @@
 #include "phonebookmodel.h"
 #include <QFile>
 #include <QTextStream>
-
-const QString DELIMITER = ";";
-
-PhoneBookModel::PhoneBookModel() {}
+#include "iphonebookmodelloader.h"
 
 void PhoneBookModel::loadModel(const QString &fileName) {
   beginResetModel();
-  users = loadFromFile(fileName);
+  users = loader_.load(fileName);
   endResetModel();
 }
 
@@ -48,21 +45,4 @@ QHash<int, QByteArray> PhoneBookModel::roleNames() const {
   roleNames[NameRole] = "name";
   roleNames[PhoneRole] = "phone";
   return roleNames;
-}
-
-PhoneBookModel::UsersList PhoneBookModel::loadFromFile(
-    const QString &fileName) {
-  QFile file{fileName};
-  if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return {};
-  QTextStream in(&file);
-
-  UsersList users;
-  while (!in.atEnd()) {
-    QString line = in.readLine();
-    QStringList list = line.split(DELIMITER);
-    if (list.size() >= 3)
-      users.push_back(User{list.at(0), list.at(1), list.at(2)});
-  }
-
-  return users;
 }

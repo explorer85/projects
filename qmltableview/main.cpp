@@ -1,14 +1,16 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include "filephonebookmodelloader.h"
 #include "phonebookmodel.h"
 
 int main(int argc, char *argv[]) {
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QGuiApplication app(argc, argv);
 
-  PhoneBookModel m;
-
+  FilePhoneBookModelLoader floader;
+  // SqlPhoneBookModelLoader sloader;
+  PhoneBookModel m{floader};
   m.loadModel(QCoreApplication::arguments().at(1));
 
   QQmlApplicationEngine engine;
