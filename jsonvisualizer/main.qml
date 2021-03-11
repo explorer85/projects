@@ -8,10 +8,6 @@ Window {
     height: 480
     title: qsTr("Hello World")
 
-//    TextArea {
-//        anchors.fill: parent
-//        text: jsonString
-//    }
 
     Flickable {
         id: flickable
@@ -21,7 +17,6 @@ Window {
             text: jsonString
             wrapMode: TextArea.Wrap
         }
-
         ScrollBar.vertical: ScrollBar { }
     }
 
