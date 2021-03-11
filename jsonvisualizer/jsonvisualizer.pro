@@ -15,7 +15,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         jsonparser.cpp \
-        main.cpp
+        main.cpp \
+        parametersmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -31,4 +32,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    jsonparser.h
+    jsonparser.h \
+    parametersmodel.h
