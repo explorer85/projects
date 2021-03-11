@@ -20,7 +20,9 @@ QVariant ParametersModel::data(const QModelIndex &index, int role) const {
     auto it = parameters_.begin();
     std::advance(it, index.row());
     const QStringList p = *it;
-    QString text = p[index.column()];
+    QString text;
+   // if (p.size() < index.column())
+        text = p[index.column()];
     switch (role) {
     case Qt::DisplayRole: {
         return text;

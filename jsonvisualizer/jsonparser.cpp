@@ -18,10 +18,20 @@ std::vector<QStringList> JsonParser::readParameters(const QString &fileName) {
     for (auto arrIt = jsonArray.begin(); arrIt != jsonArray.end(); arrIt++) {
         if (arrIt->isObject()) {
             auto obj = arrIt->toObject();
-            QString objstring = readObject(obj);
-            QStringList stlist = objstring.split("\n");
-            //qDebug() << stlist;
-            parameters_.emplace_back(stlist);
+            QStringList columns;
+            for (auto it = obj.begin(); it != obj.end(); it++) {
+                //qDebug() << it.key() << it.value();
+                if (it.value().isObject()) {
+//                    auto o = it.value().toObject();
+//                    qDebug() << o.keys();
+                    columns.append(readObject(it.value().toObject()));
+                } else {
+                    columns.append(QString(it.key() + ":" + it.value().toString()));
+                   // columns.append(readObject(it->toObject()));
+                }
+             }
+            qDebug() << columns;
+            parameters_.emplace_back(columns);
 
         }
     }
