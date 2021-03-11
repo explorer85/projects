@@ -36,8 +36,9 @@ void JsonParser::read(const QString &fileName) {
     //and holding by the jsonDocument Class
     QJsonObject jsonObj;
     jsonObj = jsonDoc.object();
-    //QString result;
-    readObject(jsonObj);
+
+    QString result = readObject(jsonObj);
+    qDebug() << result;
 
 
 
@@ -67,29 +68,34 @@ void JsonParser::read(const QString &fileName) {
 
 QString JsonParser::readObject(QJsonObject jsonObj) {
     // qDebug() << jsonObj.keys();
+    QString json;
+
 
     for (auto it = jsonObj.begin(); it != jsonObj.end(); it++) {
         if (it.value().isObject()) {
-            qDebug() << "{} " << it.key();
-            readObject(it->toObject());
+            //qDebug() << "{} " << it.key();
+            json += "{} " + it.key() + "/n";
+            json += readObject(it->toObject());
         } else if (it.value().isArray()) {
-            qDebug() << "[] " << it.key();
+            //qDebug() << "[] " << it.key();
+            json += "[] " + it.key() + "/n";
             QJsonArray jsonArray;
             jsonArray = it->toArray();
             for (auto arrIt = jsonArray.begin(); arrIt != jsonArray.end(); arrIt++) {
                 if (arrIt->isObject()) {
-                    qDebug() << " readarr";
-                    readObject(arrIt->toObject());
+                    //qDebug() << " readarr";
+                    json += readObject(arrIt->toObject());
                 }
 
             }
 
         } else {
             //qDebug() << "PARSEVALUE" << it.key();
-            qDebug() << it.key() << ":" << it.value().toVariant();
+            //qDebug() << it.key() << ":" << it.value().toVariant();
+            json += it.key() + ":" + QString(it.value().toString()) + "/n";
         }
     }
-    return "";
+    return json;
 
 }
 
