@@ -8,77 +8,46 @@ JsonParser::JsonParser()
 {
 
 }
-void JsonParser::read(const QString &fileName) {
+QString JsonParser::read(const QString &fileName) {
 
-
-    //1. Open the QFile and write it to a byteArray and close the file
     QFile file;
     file.setFileName(fileName);
     if(!file.open(QIODevice::ReadOnly)){
         qDebug() << "Json filef couldn't be opened/found";
-        return;
+        return {};
     }
     QByteArray byteArray;
     byteArray = file.readAll();
     file.close();
 
-    //2. Format the content of the byteArray as QJsonDocument
-    //and check on parse Errors
     QJsonParseError parseError;
     QJsonDocument jsonDoc;
     jsonDoc = QJsonDocument::fromJson(byteArray, &parseError);
     if(parseError.error != QJsonParseError::NoError){
         qWarning() << "Parse error at " << parseError.offset << ":" << parseError.errorString();
-        return;
+        return {};
     }
 
-    //3. Create a jsonObject and fill it with the byteArray content, formatted
-    //and holding by the jsonDocument Class
     QJsonObject jsonObj;
     jsonObj = jsonDoc.object();
-
     QString result = readObject(jsonObj);
     qDebug() << result;
-
-
-
-
-    //4. Now picking the jsonValues and printing them out or do what ever you need
-//    QJsonValue jsonVal;
-//    QTextStream textStream(stdout);
-
-//    jsonVal = jsonObj.value("name");
-    //    textStream << jsonVal.toString() << endl;
-
-    //5. Now we need to fill the object of the object. To do that, we need
-    //the Item Object and a jsonSubVal object for json without a loop
-    //    QJsonObject jsonItemObj;
-    //    QJsonValue jsonSubVal;
-
-    //    jsonVal = jsonObj.value(QString("links"));
-    //    jsonItemObj = jsonVal.toObject();
-    //    qDebug() << jsonItemObj;
-    // jsonSubVal = jsonItemObj["Street"];
-    //    textStream << jsonSubVal.toString() << endl;
-
-
-
-
+    return result;
 }
 
 QString JsonParser::readObject(QJsonObject jsonObj) {
     // qDebug() << jsonObj.keys();
     QString json;
 
-
+    const QString slashn = "\n";
     for (auto it = jsonObj.begin(); it != jsonObj.end(); it++) {
         if (it.value().isObject()) {
             //qDebug() << "{} " << it.key();
-            json += "{} " + it.key() + "/n";
+            json += "{} " + it.key() + slashn;
             json += readObject(it->toObject());
         } else if (it.value().isArray()) {
             //qDebug() << "[] " << it.key();
-            json += "[] " + it.key() + "/n";
+            json += "[] " + it.key() + slashn;
             QJsonArray jsonArray;
             jsonArray = it->toArray();
             for (auto arrIt = jsonArray.begin(); arrIt != jsonArray.end(); arrIt++) {
@@ -92,7 +61,7 @@ QString JsonParser::readObject(QJsonObject jsonObj) {
         } else {
             //qDebug() << "PARSEVALUE" << it.key();
             //qDebug() << it.key() << ":" << it.value().toVariant();
-            json += it.key() + ":" + QString(it.value().toString()) + "/n";
+            json += it.key() + ":" + QString(it.value().toString()) + slashn;
         }
     }
     return json;

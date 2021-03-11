@@ -8,7 +8,8 @@ class JsonParser
 {
 public:
     JsonParser();
-    void read(const QString &fileName);
+    QString read(const QString &fileName);
+private:
     QString readObject(QJsonObject jsonObj);
 };
 
