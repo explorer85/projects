@@ -25,14 +25,21 @@ Window {
         ScrollBar.vertical: ScrollBar { }
     }
 
-    ListView {
+    TableView {
         Layout.fillHeight: true
         Layout.fillWidth: true
         Layout.preferredHeight: 1
 
-        delegate: Text {
+        delegate: Rectangle {
+            color: "gray"
+            border.color: "black"
+            implicitWidth: 200
+            implicitHeight: 50
+            Text {
+               anchors.fill: parent
                text: display
            }
+        }
         model: paramsModel
 
     }

@@ -5,9 +5,10 @@ ParametersModel::ParametersModel()
 
 }
 
-//int ParametersModel::columnCount(const QModelIndex &parent) const {
+int ParametersModel::columnCount(const QModelIndex &parent) const {
+    return 3;
 
-//}
+}
 
 int ParametersModel::rowCount(const QModelIndex &) const {
     return parameters_.size();
@@ -19,12 +20,9 @@ QVariant ParametersModel::data(const QModelIndex &index, int role) const {
     auto it = parameters_.begin();
     std::advance(it, index.row());
     const QStringList p = *it;
+    QString text = p[index.column()];
     switch (role) {
     case Qt::DisplayRole: {
-        QString text;
-        for (auto st : p)
-            text+=st;
-
         return text;
     }
 
