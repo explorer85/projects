@@ -1,7 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QDebug>
 #include "jsonparser.h"
+#include "parametersmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -9,8 +11,10 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    ParametersModel pm;
     JsonParser jp;
     QString jsonString = jp.read("data.json");
+    qDebug() << jp.parameters();
 
 
     QQmlApplicationEngine engine;
