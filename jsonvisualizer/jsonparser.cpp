@@ -42,21 +42,22 @@ QString JsonParser::readObject(QJsonObject jsonObj) {
     const QString slashn = "\n";
     for (auto it = jsonObj.begin(); it != jsonObj.end(); it++) {
         if (it.value().isObject()) {
-            //qDebug() << "{} " << it.key();
-            json += QString(shiftCount, ' ') + "{} " + it.key() + slashn;
+            json += QString(shiftCount, ' ')  + "\"" + it.key() + "\"" + ": " + "{" + slashn;
             json += readObject(it->toObject());
+            json += QString(shiftCount, ' ')  +"}" + "," + slashn;
         } else if (it.value().isArray()) {
-            //qDebug() << "[] " << it.key();
-            json += QString(shiftCount, ' ') + "[] " + it.key() + slashn;
+            json += QString(shiftCount, ' ') + "\"" + it.key() + "\"" + ": " + "[" + slashn;
             QJsonArray jsonArray;
             jsonArray = it->toArray();
             for (auto arrIt = jsonArray.begin(); arrIt != jsonArray.end(); arrIt++) {
                 if (arrIt->isObject()) {
-                    //qDebug() << " readarr";
-                    json += readObject(arrIt->toObject());
-                }
 
+                    json += QString(shiftCount, ' ')  +  "{" + slashn;
+                    json += readObject(arrIt->toObject());
+                    json += QString(shiftCount, ' ')  +"}" + "," + slashn;
+                }
             }
+            json += QString(shiftCount, ' ')  +"]" + "," + slashn;
 
         } else {
             QString value;
@@ -82,7 +83,7 @@ QString JsonParser::readObject(QJsonObject jsonObj) {
 
             }
 
-            json += QString(shiftCount, ' ') + it.key() + ":"+ value + slashn;
+            json += QString(shiftCount, ' ') + "\"" + it.key() + "\"" + ": "+ "\"" + value + "\"" + "," + slashn;
         }
     }
 
