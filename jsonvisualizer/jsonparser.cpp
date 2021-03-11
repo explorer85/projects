@@ -8,8 +8,38 @@ JsonParser::JsonParser()
 {
 
 }
+
+std::vector<QStringList> JsonParser::readParameters(const QString &fileName) {
+    std::vector<QStringList> parameters_;
+    QJsonObject jsonObj = openFile(fileName);
+    auto paramsIt = jsonObj.find("parameters");
+    QJsonArray jsonArray;
+    jsonArray = paramsIt->toArray();
+    for (auto arrIt = jsonArray.begin(); arrIt != jsonArray.end(); arrIt++) {
+        if (arrIt->isObject()) {
+            auto obj = arrIt->toObject();
+            QString objstring = readObject(obj);
+            QStringList stlist = objstring.split("\n");
+            //qDebug() << stlist;
+            parameters_.emplace_back(stlist);
+
+        }
+    }
+
+
+    return parameters_;
+
+}
+
+
 QString JsonParser::read(const QString &fileName) {
 
+    QJsonObject jsonObj = openFile(fileName);
+    QString result = readObject(jsonObj);
+    return result;
+}
+
+QJsonObject JsonParser::openFile(const QString &fileName) {
     QFile file;
     file.setFileName(fileName);
     if(!file.open(QIODevice::ReadOnly)){
@@ -28,10 +58,9 @@ QString JsonParser::read(const QString &fileName) {
         return {};
     }
 
-    QJsonObject jsonObj;
-    jsonObj = jsonDoc.object();
-    QString result = readObject(jsonObj);
-    return result;
+    return  jsonDoc.object();
+
+
 }
 
 QString JsonParser::readObject(QJsonObject jsonObj) {

@@ -18,12 +18,12 @@ QVariant ParametersModel::data(const QModelIndex &index, int role) const {
         return QVariant();
     auto it = parameters_.begin();
     std::advance(it, index.row());
-    const Parameter p = *it;
+    const QStringList p = *it;
     switch (role) {
     case Qt::DisplayRole: {
         QString text;
-        for (auto field : p.fields)
-            text+=field;
+        for (auto st : p)
+            text+=st;
 
         return text;
     }
@@ -39,4 +39,10 @@ bool ParametersModel::setData(const QModelIndex &/*index*/, const QVariant &/*va
 QHash<int,QByteArray> ParametersModel::roleNames() const {
     auto names = QAbstractItemModel::roleNames();
     return names;
+}
+
+void ParametersModel::resetModel(std::vector<QStringList> parameters) {
+    beginResetModel();
+    parameters_ = parameters;
+    endResetModel();
 }

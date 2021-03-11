@@ -18,8 +18,9 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     QHash<int,QByteArray> roleNames() const override;
+    void resetModel(std::vector<QStringList> parameters);
 private:
-   std::vector<Parameter> parameters_;
+   std::vector<QStringList> parameters_;
 };
 
 #endif // PARAMETERSMODEL_H

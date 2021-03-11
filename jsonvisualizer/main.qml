@@ -30,6 +30,11 @@ Window {
         Layout.fillWidth: true
         Layout.preferredHeight: 1
 
+        delegate: Text {
+               text: display
+           }
+        model: paramsModel
+
     }
 
     }

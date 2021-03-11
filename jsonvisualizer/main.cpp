@@ -14,11 +14,13 @@ int main(int argc, char *argv[])
     ParametersModel pm;
     JsonParser jp;
     QString jsonString = jp.read("data.json");
-    qDebug() << jp.parameters();
+    std::vector<QStringList> parameters_ = jp.readParameters("data.json");
+    pm.resetModel(parameters_);
 
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("jsonString", jsonString);
+    engine.rootContext()->setContextProperty("paramsModel", &pm);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
