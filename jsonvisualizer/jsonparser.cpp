@@ -57,6 +57,7 @@ void JsonParser::saveParameters(std::vector<QStringList> params) {
                 iObj.insert(key, value);
 
              }
+            jsonArray.insert(i, iObj);
     }
 
     QFile saveFile("save.json");
