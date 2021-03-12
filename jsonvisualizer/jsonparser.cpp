@@ -110,6 +110,7 @@ QString JsonParser::readObject(const QJsonObject& jsonObj, bool lastObject) {
   json += shift + "{" + slashn;
 
   for (auto it = jsonObj.begin(); it != jsonObj.end(); it++) {
+    //Обьект
     if (it.value().isObject()) {
       shiftCount_ += shiftSize_;
       json += QString(shiftCount_, ' ') + '"' + it.key() + '"' + ": ";
@@ -122,7 +123,9 @@ QString JsonParser::readObject(const QJsonObject& jsonObj, bool lastObject) {
       json += readObject(it->toObject(), flag);
       shiftCount_ -= shiftSize_;
 
-    } else if (it.value().isArray()) {
+    }
+    //Массив
+    else if (it.value().isArray()) {
       shiftCount_ += shiftSize_;
       json += QString(shiftCount_, ' ') + '"' + it.key() + '"' + ": " + "[" +
               slashn;
@@ -147,7 +150,9 @@ QString JsonParser::readObject(const QJsonObject& jsonObj, bool lastObject) {
       if ((it + 1) != jsonObj.end()) json += ",";
       json += slashn;
 
-    } else {
+    }
+    //остальные типы
+    else {
       shiftCount_ += shiftSize_;
       QString value = valueToString(it.value());
       json += QString(shiftCount_, ' ') + '"' + it.key() + '"' + ": " + '"' +
