@@ -2,7 +2,7 @@
 #define JSONPARSER_H
 #include <QObject>
 #include <QString>
-#include <QJsonDocument>
+#include <QJsonObject>
 #include <vector>
 
 
@@ -25,7 +25,7 @@ public:
     QJsonObject writeObject(QString formattedJsonObj);
 private:
     QString fileName_;
-    QJsonDocument jsonDoc_;
+    QJsonObject jsonRootObject_;
     QJsonObject openFile(const QString &fileName);
     QString valueToString(QJsonValue val);
     const int shiftSize{7};

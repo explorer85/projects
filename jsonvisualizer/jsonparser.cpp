@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QJsonDocument>
 
 JsonParser::JsonParser(const QString &fileName) : QObject(nullptr), fileName_(fileName)
 {
@@ -63,11 +64,13 @@ void JsonParser::saveParameters(std::vector<QStringList> params) {
             jsonArray.insert(i, iObj);
     }
 
-    QFile saveFile("save.json");
+    QFile saveFile("data.json");
     if (!saveFile.open(QIODevice::WriteOnly)) {
         qWarning("Couldn't open save file.");
     }
-    QJsonDocument saveDoc(jsonArray);
+    jsonRootObject_["parameters"] = jsonArray;
+    //QJsonDocument saveDoc(jsonArray);
+    QJsonDocument saveDoc(jsonRootObject_);
     saveFile.write(saveDoc.toJson(QJsonDocument::Compact));
 }
 
@@ -94,12 +97,13 @@ QJsonObject JsonParser::openFile(const QString &fileName) {
     file.close();
 
     QJsonParseError parseError;   
-    jsonDoc_ = QJsonDocument::fromJson(byteArray, &parseError);
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(byteArray, &parseError);
+    jsonRootObject_ = jsonDoc.object();
     if(parseError.error != QJsonParseError::NoError){
         qWarning() << "Parse error at " << parseError.offset << ":" << parseError.errorString();
         return {};
     }
-    return  jsonDoc_.object();
+    return  jsonRootObject_;
 
 
 }
