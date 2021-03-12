@@ -46,11 +46,6 @@ QString JsonParser::formatFromFile(const QString &jsonString) {
     return result;
 }
 
-QString JsonParser::formatFromString(const QString &jsonString){
-    QJsonObject jsonObj = readString(jsonString);
-    QString result = readObject(jsonObj);
-    return result;
-}
 
 QJsonObject JsonParser::openFile(const QString &fileName) {
     QFile file;
@@ -76,12 +71,6 @@ QJsonObject JsonParser::openFile(const QString &fileName) {
 
 }
 
-QJsonObject JsonParser::readString(const QString &jsonString) {
-    QJsonParseError parseError;
-    QJsonDocument jsonDoc;
-    jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8(), &parseError);
-    return  jsonDoc.object();
-}
 
 QString JsonParser::readObject(QJsonObject jsonObj, bool lastObject) {
 
