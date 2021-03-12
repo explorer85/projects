@@ -20,11 +20,11 @@ std::vector<QStringList> JsonParser::readParameters() {
             auto obj = arrIt->toObject();
             QStringList columns;
             for (auto it = obj.begin(); it != obj.end(); it++) {
-                //qDebug() << it.key() << it.value();
                 if (it.value().isObject()) {
                     columns.append(QString(it.key() + ":") + readObject(it.value().toObject()));
                 } else {
-                    columns.append(QString(it.key() + ":" + it.value().toString()));
+                    QString value = valueToString(it.value());
+                    columns.append(QString(it.key() + ":" + value));
                 }
              }
             //qDebug() << columns;
@@ -41,9 +41,9 @@ std::vector<QStringList> JsonParser::readParameters() {
 void JsonParser::saveParameters(std::vector<QStringList> params) {
     qDebug() << "JsonParser::saveParameters" << params.size();
     QJsonObject jsonObj = openFile(fileName_);
-    auto paramsIt = jsonObj.find("parameters");
+   // auto paramsIt = jsonObj.find("parameters");
     QJsonArray jsonArray;
-    jsonArray = paramsIt->toArray();
+    //jsonArray = paramsIt->toArray();
 
     for (auto i = 0; i < params.size(); i++) {
             QJsonObject iObj = jsonArray.at(i).toObject();
@@ -65,7 +65,7 @@ void JsonParser::saveParameters(std::vector<QStringList> params) {
         qWarning("Couldn't open save file.");
     }
     QJsonDocument saveDoc(jsonArray);
-    saveFile.write(saveDoc.toJson());
+    saveFile.write(saveDoc.toJson(QJsonDocument::Compact));
 }
 
 
@@ -157,28 +157,7 @@ QString JsonParser::readObject(QJsonObject jsonObj, bool lastObject) {
 
         } else {
             shiftCount += shiftSize;
-            QString value;
-            switch (it.value().type()) {
-            case QJsonValue::Null:
-                value = "null";
-                break;
-            case QJsonValue::Bool:
-                value = it.value().toBool() ? QString("true") : QString(false);
-                break;
-            case QJsonValue::Double:
-                value = QString::number(it.value().toDouble());
-                break;
-            case QJsonValue::String:
-                value = it.value().toString();
-                break;
-            case QJsonValue::Undefined:
-                value = "undefined";
-                break;
-            default:
-                value = "UNDEFINED JSON TYPE";
-                break;
-
-            }
+            QString value = valueToString(it.value());
             json += QString(shiftCount, ' ') + "\"" + it.key() + "\"" + ": "+ "\"" + value + "\"";
 
             shiftCount -= shiftSize;
@@ -200,5 +179,32 @@ QString JsonParser::readObject(QJsonObject jsonObj, bool lastObject) {
     json += slashn;
 
     return json;
+
+}
+
+QString JsonParser::valueToString(QJsonValue val) {
+    QString value;
+    switch (val.type()) {
+    case QJsonValue::Null:
+        value = "null";
+        break;
+    case QJsonValue::Bool:
+        value = val.toBool() ? QString("true") : QString(false);
+        break;
+    case QJsonValue::Double:
+        value = QString::number(val.toDouble());
+        break;
+    case QJsonValue::String:
+        value = val.toString();
+        break;
+    case QJsonValue::Undefined:
+        value = "undefined";
+        break;
+    default:
+        value = "UNDEFINED JSON TYPE";
+        break;
+
+    }
+    return value;
 
 }

@@ -23,6 +23,8 @@ private:
     QJsonDocument jsonDoc_;
     QJsonObject openFile(const QString &fileName);
     QString readObject(QJsonObject jsonObj, bool lastObject = true);
+
+    QString valueToString(QJsonValue val);
     const int shiftSize{7};
     int shiftCount{0};
     bool doubleDotFlag{false};
