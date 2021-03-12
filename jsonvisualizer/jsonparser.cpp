@@ -39,9 +39,15 @@ std::vector<QStringList> JsonParser::readParameters(const QString &fileName) {
 }
 
 
-QString JsonParser::read(const QString &fileName) {
+QString JsonParser::formatFromFile(const QString &jsonString) {
 
-    QJsonObject jsonObj = openFile(fileName);
+    QJsonObject jsonObj = openFile(jsonString);
+    QString result = readObject(jsonObj);
+    return result;
+}
+
+QString JsonParser::formatFromString(const QString &jsonString){
+    QJsonObject jsonObj = readString(jsonString);
     QString result = readObject(jsonObj);
     return result;
 }
@@ -68,6 +74,13 @@ QJsonObject JsonParser::openFile(const QString &fileName) {
     return  jsonDoc.object();
 
 
+}
+
+QJsonObject JsonParser::readString(const QString &jsonString) {
+    QJsonParseError parseError;
+    QJsonDocument jsonDoc;
+    jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8(), &parseError);
+    return  jsonDoc.object();
 }
 
 QString JsonParser::readObject(QJsonObject jsonObj, bool lastObject) {
