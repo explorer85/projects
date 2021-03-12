@@ -34,7 +34,7 @@ Window {
             color: "gray"
             border.color: "black"
             implicitWidth: 300
-            implicitHeight: 80
+            implicitHeight: 180
             Text {
                anchors.fill: parent
                text: display

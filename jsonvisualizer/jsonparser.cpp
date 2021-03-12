@@ -22,12 +22,9 @@ std::vector<QStringList> JsonParser::readParameters(const QString &fileName) {
             for (auto it = obj.begin(); it != obj.end(); it++) {
                 //qDebug() << it.key() << it.value();
                 if (it.value().isObject()) {
-//                    auto o = it.value().toObject();
-//                    qDebug() << o.keys();
                     columns.append(QString(it.key() + ":") + readObject(it.value().toObject()));
                 } else {
                     columns.append(QString(it.key() + ":" + it.value().toString()));
-                   // columns.append(readObject(it->toObject()));
                 }
              }
             qDebug() << columns;
@@ -73,20 +70,20 @@ QJsonObject JsonParser::openFile(const QString &fileName) {
 
 }
 
-QString JsonParser::readObject(QJsonObject jsonObj) {
+QString JsonParser::readObject(QJsonObject jsonObj, bool lastObject) {
 
 
     const QString slashn = "\n";
     QString json;
 
-    //если предыдущее чтение была прочитано :, то не добавляем сдвиг пробелами
-    if (doubleDotFlag) {
-        json += "{" + slashn;
+    //если предыдущее значение которое была прочитано ":", то не добавляем сдвиг пробелами
+    QString shift;
+    if (doubleDotFlag)
         doubleDotFlag = false;
-    } else
-    {
-        json += QString(shiftCount, ' ')  + "{" + slashn;
-    }
+    else
+        shift = QString(shiftCount, ' ');
+
+    json += shift  + "{" + slashn;
 
     for (auto it = jsonObj.begin(); it != jsonObj.end(); it++) {
         if (it.value().isObject()) {
@@ -94,8 +91,14 @@ QString JsonParser::readObject(QJsonObject jsonObj) {
             json += QString(shiftCount, ' ')  + "\"" + it.key() + "\"" + ": ";
             doubleDotFlag = true;
 
-            json += readObject(it->toObject());
+            //добавляем флаг
+            bool flag = false;
+            if ((it + 1) == jsonObj.end())
+                flag = true;
+
+            json += readObject(it->toObject(), flag);
             shiftCount -= shiftSize;
+
         } else if (it.value().isArray()) {
             shiftCount += shiftSize;
             json += QString(shiftCount, ' ') + "\"" + it.key() + "\"" + ": " + "[" + slashn;
@@ -104,16 +107,23 @@ QString JsonParser::readObject(QJsonObject jsonObj) {
             for (auto arrIt = jsonArray.begin(); arrIt != jsonArray.end(); arrIt++) {
                 if (arrIt->isObject()) {
                     shiftCount += shiftSize;
-                    //json += QString(shiftCount, ' ')  +  "{" + slashn;
-                    json += readObject(arrIt->toObject());
+
+                    //добавляем флаг
+                    bool flag = false;
+                    if ((arrIt + 1) == jsonArray.end())
+                        flag = true;
+
+                    json += readObject(arrIt->toObject(), flag);
                     shiftCount -= shiftSize;
-//                    if ((arrIt + 1) != jsonArray.end())
-//                        json += ",";
-//                    json += slashn;
                 }
             }
-            json += QString(shiftCount, ' ')  +"]" + slashn;
+            json += QString(shiftCount, ' ')  +"]";
             shiftCount -= shiftSize;
+
+            //добавляем запятую
+            if ((it + 1) != jsonObj.end())
+                json += ",";
+            json += slashn;
 
         } else {
             shiftCount += shiftSize;
@@ -139,27 +149,26 @@ QString JsonParser::readObject(QJsonObject jsonObj) {
                 break;
 
             }
+            json += QString(shiftCount, ' ') + "\"" + it.key() + "\"" + ": "+ "\"" + value + "\"";
 
-
-            json += QString(shiftCount, ' ') + "\"" + it.key() + "\"" + ": "+ "\"" + value + "\"" + slashn;
             shiftCount -= shiftSize;
+
+            //добавляем запятую
+            if ((it + 1) != jsonObj.end())
+                json += ",";
+            json += slashn;
         }
-
-
-
-//        if ((it + 1) != jsonObj.end())
-//            json += ",";
-//        json += slashn;
-
-
     }
+    json += QString(shiftCount, ' ')  + "}";
+    //не добавляем запятую для последнего объекта
+    if (!lastObject)
+        json += ",";
+   // else
+        //lastObjectFlag = false;
 
 
-    json += QString(shiftCount, ' ')  + "}" + slashn;
+    json += slashn;
 
     return json;
 
 }
-
-
-
