@@ -57,7 +57,6 @@ void JsonParser::saveParameters(std::vector<QStringList> params) {
     qWarning("Couldn't open save file.");
   }
   jsonRootObject_["parameters"] = jsonArray;
-  // QJsonDocument saveDoc(jsonArray);
   QJsonDocument saveDoc(jsonRootObject_);
   saveFile.write(saveDoc.toJson(QJsonDocument::Compact));
 }
@@ -164,8 +163,6 @@ QString JsonParser::readObject(QJsonObject jsonObj, bool lastObject) {
   json += QString(shiftCount, ' ') + "}";
   //не добавляем запятую для последнего объекта
   if (!lastObject) json += ",";
-  // else
-  // lastObjectFlag = false;
 
   json += slashn;
 
