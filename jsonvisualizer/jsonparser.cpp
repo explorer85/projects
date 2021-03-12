@@ -4,7 +4,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-JsonParser::JsonParser()
+JsonParser::JsonParser() : QObject(nullptr)
 {
 
 }
@@ -36,6 +36,10 @@ std::vector<QStringList> JsonParser::readParameters(const QString &fileName) {
 
     return parameters_;
 
+}
+
+void JsonParser::saveParameters() {
+    qDebug() << "JsonParser::saveParameters";
 }
 
 

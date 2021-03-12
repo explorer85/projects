@@ -1,16 +1,21 @@
 #ifndef JSONPARSER_H
 #define JSONPARSER_H
+#include <QObject>
 #include <QString>
 #include <QJsonDocument>
 #include <vector>
 
 
-class JsonParser
+class JsonParser : public QObject
 {
+    Q_OBJECT
 public:
     JsonParser();
+    virtual ~JsonParser() {}
     //прочитать массив parameters и вернуть его в виде вектора
     std::vector<QStringList> readParameters(const QString &fileName);
+    //записать массив parameters в файл
+    Q_INVOKABLE void saveParameters();
     //прочитать json из файла
     QString formatFromFile(const QString &fileName);
 private:

@@ -11,6 +11,8 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    qmlRegisterInterface<VectorOfParams>("VectorOfParameters");
+
     ParametersModel pm;
     JsonParser jp;
     QString jsonString = jp.formatFromFile("data.json");
@@ -21,6 +23,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("jsonString", jsonString);
     engine.rootContext()->setContextProperty("paramsModel", &pm);
+    engine.rootContext()->setContextProperty("jsonParser", &jp);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

@@ -31,17 +31,33 @@ Window {
         Layout.preferredWidth: 1
 
         delegate: Rectangle {
+            id: delegateRoot
             color: "gray"
             border.color: "black"
             implicitWidth: 300
             implicitHeight: 180
-            Text {
-               anchors.fill: parent
-               text: display
-           }
+            TextArea {
+                id: tfEdit
+                anchors.fill: parent
+                visible: true
+                text: display
+                onTextChanged: {
+                    if (text != display) {
+                        setParam = text
+                    }
+
+                }
+
+            }
         }
         model: paramsModel
+    }
+    Button {
+        text: "Save to file"
+        onClicked: {
+          jsonParser.saveParameters(  paramsModel.modelData() )
 
+        }
     }
 
     }

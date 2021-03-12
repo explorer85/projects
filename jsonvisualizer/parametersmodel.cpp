@@ -1,4 +1,5 @@
 #include "parametersmodel.h"
+#include <QDebug>
 
 ParametersModel::ParametersModel()
 {
@@ -33,11 +34,23 @@ QVariant ParametersModel::data(const QModelIndex &index, int role) const {
     return true;
 
 }
-bool ParametersModel::setData(const QModelIndex &/*index*/, const QVariant &/*value*/, int /*role*/) {
+bool ParametersModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+    if (!index.isValid())
+        return false;
 
+    switch (role) {
+    case setParamRole: {
+        auto val = value.toString();
+        //qDebug() <<index.row() <<  index.column() << val;
+        parameters_[index.row()][index.column()] = val;
+        emit dataChanged(index, index, {Qt::DisplayRole});
+    }
+    }
+    return true;
 }
 QHash<int,QByteArray> ParametersModel::roleNames() const {
     auto names = QAbstractItemModel::roleNames();
+    names[setParamRole] = "setParam";
     return names;
 }
 
