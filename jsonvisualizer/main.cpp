@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     JsonParser jp{"data.json"};
     ParametersModel pm{&jp};
 
-    QString jsonString = jp.formatFromFile();
+    QString jsonString = jp.format();
     std::vector<QStringList> parameters_ = jp.readParameters();
     pm.resetModel(parameters_);
 

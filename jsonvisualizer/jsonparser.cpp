@@ -74,8 +74,12 @@ void JsonParser::saveParameters(std::vector<QStringList> params) {
     saveFile.write(saveDoc.toJson(QJsonDocument::Compact));
 }
 
+QString JsonParser::source() {
+    QJsonDocument d(jsonRootObject_);
+    return d.toJson(QJsonDocument::Compact);
+}
 
-QString JsonParser::formatFromFile() {
+QString JsonParser::format() {
 
     QJsonObject jsonObj = openFile(fileName_);
     //можно было воспользоваться стандартной форматирования

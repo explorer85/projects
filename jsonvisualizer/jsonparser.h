@@ -16,8 +16,10 @@ public:
     std::vector<QStringList> readParameters();
     //записать массив parameters в файл
     void saveParameters(std::vector<QStringList> params);
-    //прочитать json из файла
-    QString formatFromFile();
+    //вернуть не форматированную строку
+    QString source();
+    //форматировать открытый файл
+    QString format();
 
     //преобразовать json обьект в форматированную строку
     QString readObject(QJsonObject jsonObj, bool lastObject = true);
