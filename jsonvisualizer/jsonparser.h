@@ -15,14 +15,14 @@ class JsonParser : public QObject {
   //прочитать массив parameters и вернуть его в виде вектора
   std::vector<QStringList> readParameters();
   //записать массив parameters в файл
-  void saveParameters(std::vector<QStringList> params);
+  void saveParameters(const std::vector<QStringList> &params);
   //вернуть не форматированную строку
   QString source() const;
   //форматировать открытый файл
   QString format();
 
   //преобразовать json обьект в форматированную строку
-  QString readObject(QJsonObject jsonObj, bool lastObject = true);
+  QString readObject(const QJsonObject &jsonObj, bool lastObject = true);
   //преоборазовать форматированную строку в не форматированную строку
   QJsonObject writeObject(const QString &formattedJsonObj);
 

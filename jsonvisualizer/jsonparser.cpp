@@ -32,7 +32,7 @@ std::vector<QStringList> JsonParser::readParameters() {
   return parameters_;
 }
 
-void JsonParser::saveParameters(std::vector<QStringList> params) {
+void JsonParser::saveParameters(const std::vector<QStringList>& params) {
   qDebug() << "JsonParser::saveParameters" << params.size();
   QJsonArray jsonArray;
 
@@ -95,7 +95,7 @@ bool JsonParser::openFile(const QString& fileName) {
   return true;
 }
 
-QString JsonParser::readObject(QJsonObject jsonObj, bool lastObject) {
+QString JsonParser::readObject(const QJsonObject& jsonObj, bool lastObject) {
   const QString slashn = "\n";
   QString json;
 
