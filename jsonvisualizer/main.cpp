@@ -11,8 +11,6 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    qmlRegisterInterface<VectorOfParams>("VectorOfParameters");
-
     JsonParserPtr jp = std::make_shared<JsonParser>("data.json");
     ParametersModel pm{jp};
 

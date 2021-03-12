@@ -32,6 +32,5 @@ private:
 
 
 using VectorOfParams = std::vector<QStringList>;
-Q_DECLARE_INTERFACE(VectorOfParams, "org.foo.List")
 
 #endif // PARAMETERSMODEL_H
