@@ -4,6 +4,7 @@
 #include <QString>
 #include <QJsonObject>
 #include <vector>
+#include <memory>
 
 
 class JsonParser : public QObject
@@ -36,5 +37,6 @@ private:
 
 
 };
+using JsonParserPtr = std::shared_ptr<JsonParser>;
 
 #endif // JSONPARSER_H

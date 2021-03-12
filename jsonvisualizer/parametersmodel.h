@@ -2,8 +2,10 @@
 #define PARAMETERSMODEL_H
 
 #include <QAbstractTableModel>
+#include <memory>
 
 class JsonParser;
+using JsonParserPtr = std::shared_ptr<JsonParser>;
 
 
 
@@ -15,7 +17,7 @@ class ParametersModel : public QAbstractTableModel
         NsgbrHighLightRole
     };
 public:
-    ParametersModel(JsonParser *jp);
+    ParametersModel(JsonParserPtr jp);
     int columnCount(const QModelIndex &parent) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -25,7 +27,7 @@ public:
     Q_INVOKABLE void saveModelData();
 private:
     std::vector<QStringList> parameters_;
-    JsonParser *jp_;
+    JsonParserPtr jp_;
 };
 
 

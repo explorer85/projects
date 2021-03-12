@@ -2,7 +2,7 @@
 #include "jsonparser.h"
 #include <QDebug>
 
-ParametersModel::ParametersModel(JsonParser *jp) :
+ParametersModel::ParametersModel(JsonParserPtr jp) :
     jp_(jp)
 {
 

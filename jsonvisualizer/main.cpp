@@ -13,18 +13,18 @@ int main(int argc, char *argv[])
 
     qmlRegisterInterface<VectorOfParams>("VectorOfParameters");
 
-    JsonParser jp{"data.json"};
-    ParametersModel pm{&jp};
+    JsonParserPtr jp = std::make_shared<JsonParser>("data.json");
+    ParametersModel pm{jp};
 
-    QString jsonString = jp.format();
-    std::vector<QStringList> parameters_ = jp.readParameters();
+    QString jsonString = jp->format();
+    std::vector<QStringList> parameters_ = jp->readParameters();
     pm.resetModel(parameters_);
 
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("jsonString", jsonString);
     engine.rootContext()->setContextProperty("paramsModel", &pm);
-    engine.rootContext()->setContextProperty("jsonParser", &jp);
+    engine.rootContext()->setContextProperty("jsonParser", jp.get());
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
