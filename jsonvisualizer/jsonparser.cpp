@@ -36,7 +36,7 @@ void JsonParser::saveParameters(std::vector<QStringList> params) {
   qDebug() << "JsonParser::saveParameters" << params.size();
   QJsonArray jsonArray;
 
-  for (auto i = 0; i < params.size(); i++) {
+  for (unsigned long i = 0; i < params.size(); i++) {
     QJsonObject iObj = jsonArray.at(i).toObject();
     QStringList columns = params[i];
     qDebug() << i << "-------------------";

@@ -9,7 +9,6 @@
 class JsonParser : public QObject {
   Q_OBJECT
  public:
-  // fileName имя файла с json
   JsonParser();
   virtual ~JsonParser() {}
   bool openFile(const QString &fileName);
@@ -30,11 +29,11 @@ class JsonParser : public QObject {
  private:
   QString fileName_;
   QJsonObject jsonRootObject_;
-
-  QString valueToString(QJsonValue val);
   const int shiftSize{7};
   int shiftCount{0};
   bool doubleDotFlag{false};
+
+  QString valueToString(QJsonValue val);
 };
 using JsonParserPtr = std::shared_ptr<JsonParser>;
 
