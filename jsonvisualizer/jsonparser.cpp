@@ -55,11 +55,11 @@ void JsonParser::saveParameters(std::vector<QStringList> params) {
                 QString value = sl.join(":");
                 qDebug() << key << "  " << value;
                 if (key == "value") {
-                   value =  writeObject(value);
-                }
-
-                iObj.insert(key, value);
-             }
+                    QJsonObject obj =  writeObject(value);
+                    iObj.insert(key, obj);
+                } else
+                    iObj.insert(key, value);
+            }
             jsonArray.insert(i, iObj);
     }
 
@@ -76,6 +76,7 @@ QString JsonParser::formatFromFile() {
 
     QJsonObject jsonObj = openFile(fileName_);
     QString result = readObject(jsonObj);
+    //result = jsonDoc_.toJson(QJsonDocument::Indented);
     return result;
 }
 
@@ -185,8 +186,9 @@ QString JsonParser::readObject(QJsonObject jsonObj, bool lastObject) {
 
 }
 
-QString JsonParser::writeObject(QString formattedJsonObj) {
-    return "a";
+QJsonObject JsonParser::writeObject(QString formattedJsonObj) {
+    QJsonObject obj;
+    return obj;
 
 }
 
