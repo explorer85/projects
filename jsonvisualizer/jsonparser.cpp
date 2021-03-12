@@ -112,7 +112,7 @@ QString JsonParser::readObject(const QJsonObject& jsonObj, bool lastObject) {
   for (auto it = jsonObj.begin(); it != jsonObj.end(); it++) {
     if (it.value().isObject()) {
       shiftCount_ += shiftSize_;
-      json += QString(shiftCount_, ' ') + "\"" + it.key() + "\"" + ": ";
+      json += QString(shiftCount_, ' ') + '"' + it.key() + '"' + ": ";
       doubleDotFlag_ = true;
 
       //добавляем флаг
@@ -124,7 +124,7 @@ QString JsonParser::readObject(const QJsonObject& jsonObj, bool lastObject) {
 
     } else if (it.value().isArray()) {
       shiftCount_ += shiftSize_;
-      json += QString(shiftCount_, ' ') + "\"" + it.key() + "\"" + ": " + "[" +
+      json += QString(shiftCount_, ' ') + '"' + it.key() + '"' + ": " + "[" +
               slashn;
       QJsonArray jsonArray;
       jsonArray = it->toArray();
@@ -150,8 +150,8 @@ QString JsonParser::readObject(const QJsonObject& jsonObj, bool lastObject) {
     } else {
       shiftCount_ += shiftSize_;
       QString value = valueToString(it.value());
-      json += QString(shiftCount_, ' ') + "\"" + it.key() + "\"" + ": " + "\"" +
-              value + "\"";
+      json += QString(shiftCount_, ' ') + '"' + it.key() + '"' + ": " + '"' +
+              value + '"';
 
       shiftCount_ -= shiftSize_;
 
