@@ -5,18 +5,18 @@ import QtQuick.Layouts 1.12
 
 Window {
     visible: true
-    width: 640
-    height: 480
+    width: 1024
+    height: 768
     title: qsTr("Hello World")
 
-    RowLayout {
+    ColumnLayout {
         anchors.fill: parent
 
     Flickable {
         id: flickable
         Layout.fillHeight: true
         Layout.fillWidth: true
-        Layout.preferredHeight: 1
+        Layout.preferredWidth: 1
 
         TextArea.flickable: TextArea {
             text: jsonString
@@ -28,13 +28,13 @@ Window {
     TableView {
         Layout.fillHeight: true
         Layout.fillWidth: true
-        Layout.preferredHeight: 1
+        Layout.preferredWidth: 1
 
         delegate: Rectangle {
             color: "gray"
             border.color: "black"
-            implicitWidth: 200
-            implicitHeight: 50
+            implicitWidth: 300
+            implicitHeight: 80
             Text {
                anchors.fill: parent
                text: display

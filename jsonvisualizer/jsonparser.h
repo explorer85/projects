@@ -15,8 +15,10 @@ private:
     QJsonObject openFile(const QString &fileName);
     QString readObject(QJsonObject jsonObj);
     const int shiftSize{7};
-    int shiftCount{-shiftSize};
+    int shiftCount{0};
+    bool doubleDotFlag{false};
     bool readParameters_{false};
+
 
 };
 
