@@ -33,7 +33,8 @@ Window {
 
         delegate: Rectangle {
             id: delegateRoot
-            color: "gray"
+            color: !nsgbrhighlight ? "gray" : "green"
+
             border.color: "black"
             implicitWidth: 300
             implicitHeight: 180

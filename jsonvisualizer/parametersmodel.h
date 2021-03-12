@@ -11,7 +11,8 @@ class ParametersModel : public QAbstractTableModel
 {
     Q_OBJECT
     enum Roles {
-        setParamRole = Qt::UserRole + 1
+        setParamRole = Qt::UserRole + 1,
+        NsgbrHighLightRole
     };
 public:
     ParametersModel(JsonParser *jp);
