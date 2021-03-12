@@ -19,6 +19,7 @@ Window {
         Layout.preferredWidth: 1
 
         TextArea.flickable: TextArea {
+            readOnly: true
             text: jsonString
             wrapMode: TextArea.Wrap
         }
