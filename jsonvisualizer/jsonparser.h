@@ -17,23 +17,23 @@ class JsonParser : public QObject {
   //записать массив parameters в файл
   void saveParameters(std::vector<QStringList> params);
   //вернуть не форматированную строку
-  QString source();
+  QString source() const;
   //форматировать открытый файл
   QString format();
 
   //преобразовать json обьект в форматированную строку
   QString readObject(QJsonObject jsonObj, bool lastObject = true);
   //преоборазовать форматированную строку в не форматированную строку
-  QJsonObject writeObject(QString formattedJsonObj);
+  QJsonObject writeObject(const QString &formattedJsonObj);
 
  private:
   QString fileName_;
   QJsonObject jsonRootObject_;
-  const int shiftSize{7};
-  int shiftCount{0};
-  bool doubleDotFlag{false};
+  const int shiftSize_{7};
+  int shiftCount_{0};
+  bool doubleDotFlag_{false};
 
-  QString valueToString(QJsonValue val);
+  QString valueToString(const QJsonValue &val) const;
 };
 using JsonParserPtr = std::shared_ptr<JsonParser>;
 

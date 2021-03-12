@@ -61,7 +61,7 @@ void JsonParser::saveParameters(std::vector<QStringList> params) {
   saveFile.write(saveDoc.toJson(QJsonDocument::Compact));
 }
 
-QString JsonParser::source() {
+QString JsonParser::source() const {
   QJsonDocument d(jsonRootObject_);
   return d.toJson(QJsonDocument::Compact);
 }
@@ -102,65 +102,65 @@ QString JsonParser::readObject(QJsonObject jsonObj, bool lastObject) {
   //если предыдущее значение которое была прочитано ":", то не добавляем сдвиг
   //пробелами
   QString shift;
-  if (doubleDotFlag)
-    doubleDotFlag = false;
+  if (doubleDotFlag_)
+    doubleDotFlag_ = false;
   else
-    shift = QString(shiftCount, ' ');
+    shift = QString(shiftCount_, ' ');
 
   json += shift + "{" + slashn;
 
   for (auto it = jsonObj.begin(); it != jsonObj.end(); it++) {
     if (it.value().isObject()) {
-      shiftCount += shiftSize;
-      json += QString(shiftCount, ' ') + "\"" + it.key() + "\"" + ": ";
-      doubleDotFlag = true;
+      shiftCount_ += shiftSize_;
+      json += QString(shiftCount_, ' ') + "\"" + it.key() + "\"" + ": ";
+      doubleDotFlag_ = true;
 
       //добавляем флаг
       bool flag = false;
       if ((it + 1) == jsonObj.end()) flag = true;
 
       json += readObject(it->toObject(), flag);
-      shiftCount -= shiftSize;
+      shiftCount_ -= shiftSize_;
 
     } else if (it.value().isArray()) {
-      shiftCount += shiftSize;
-      json += QString(shiftCount, ' ') + "\"" + it.key() + "\"" + ": " + "[" +
+      shiftCount_ += shiftSize_;
+      json += QString(shiftCount_, ' ') + "\"" + it.key() + "\"" + ": " + "[" +
               slashn;
       QJsonArray jsonArray;
       jsonArray = it->toArray();
       for (auto arrIt = jsonArray.begin(); arrIt != jsonArray.end(); arrIt++) {
         if (arrIt->isObject()) {
-          shiftCount += shiftSize;
+          shiftCount_ += shiftSize_;
 
           //добавляем флаг
           bool flag = false;
           if ((arrIt + 1) == jsonArray.end()) flag = true;
 
           json += readObject(arrIt->toObject(), flag);
-          shiftCount -= shiftSize;
+          shiftCount_ -= shiftSize_;
         }
       }
-      json += QString(shiftCount, ' ') + "]";
-      shiftCount -= shiftSize;
+      json += QString(shiftCount_, ' ') + "]";
+      shiftCount_ -= shiftSize_;
 
       //добавляем запятую
       if ((it + 1) != jsonObj.end()) json += ",";
       json += slashn;
 
     } else {
-      shiftCount += shiftSize;
+      shiftCount_ += shiftSize_;
       QString value = valueToString(it.value());
-      json += QString(shiftCount, ' ') + "\"" + it.key() + "\"" + ": " + "\"" +
+      json += QString(shiftCount_, ' ') + "\"" + it.key() + "\"" + ": " + "\"" +
               value + "\"";
 
-      shiftCount -= shiftSize;
+      shiftCount_ -= shiftSize_;
 
       //добавляем запятую
       if ((it + 1) != jsonObj.end()) json += ",";
       json += slashn;
     }
   }
-  json += QString(shiftCount, ' ') + "}";
+  json += QString(shiftCount_, ' ') + "}";
   //не добавляем запятую для последнего объекта
   if (!lastObject) json += ",";
 
@@ -169,14 +169,14 @@ QString JsonParser::readObject(QJsonObject jsonObj, bool lastObject) {
   return json;
 }
 
-QJsonObject JsonParser::writeObject(QString formattedJsonObj) {
+QJsonObject JsonParser::writeObject(const QString& formattedJsonObj) {
   //немогу уже слишком муторно обратно парсить руками:)
   QJsonParseError pe;
   QJsonDocument dd = QJsonDocument::fromJson(formattedJsonObj.toUtf8(), &pe);
   return dd.object();
 }
 
-QString JsonParser::valueToString(QJsonValue val) {
+QString JsonParser::valueToString(const QJsonValue& val) const {
   QString value;
   switch (val.type()) {
     case QJsonValue::Null:
