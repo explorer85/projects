@@ -12,4 +12,14 @@ SOURCES += \
     jsonparsertest.cpp
 
 
+OTHER_FILES += \
+data/empty.json \
+data/keyvalue.json \
+data/arrayofvalue.json
+
+message($$OUT_PWD)
+target.files = $$OTHER_FILES
+target.path = $$OUT_PWD
+!isEmpty(target.path): INSTALLS += target
+
 
