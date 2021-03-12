@@ -5,15 +5,15 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 
-JsonParser::JsonParser(const QString &fileName) : QObject(nullptr), fileName_(fileName)
+JsonParser::JsonParser() : QObject(nullptr)
 {
 
 }
 
+
 std::vector<QStringList> JsonParser::readParameters() {
     std::vector<QStringList> parameters_;
-    QJsonObject jsonObj = openFile(fileName_);
-    auto paramsIt = jsonObj.find("parameters");
+    auto paramsIt = jsonRootObject_.find("parameters");
     QJsonArray jsonArray;
     jsonArray = paramsIt->toArray();
     for (auto arrIt = jsonArray.begin(); arrIt != jsonArray.end(); arrIt++) {
@@ -28,7 +28,6 @@ std::vector<QStringList> JsonParser::readParameters() {
                     columns.append(QString(it.key() + ":" + value));
                 }
              }
-            //qDebug() << columns;
             parameters_.emplace_back(columns);
 
         }
@@ -41,10 +40,7 @@ std::vector<QStringList> JsonParser::readParameters() {
 
 void JsonParser::saveParameters(std::vector<QStringList> params) {
     qDebug() << "JsonParser::saveParameters" << params.size();
-    QJsonObject jsonObj = openFile(fileName_);
-   // auto paramsIt = jsonObj.find("parameters");
     QJsonArray jsonArray;
-    //jsonArray = paramsIt->toArray();
 
     for (auto i = 0; i < params.size(); i++) {
             QJsonObject iObj = jsonArray.at(i).toObject();
@@ -81,20 +77,19 @@ QString JsonParser::source() {
 
 QString JsonParser::format() {
 
-    QJsonObject jsonObj = openFile(fileName_);
     //можно было воспользоваться стандартной форматирования
     //но я не ищу легких путей
-    QString result = readObject(jsonObj);
+    QString result = readObject(jsonRootObject_);
     return result;
 }
 
 
-QJsonObject JsonParser::openFile(const QString &fileName) {
+bool JsonParser::openFile(const QString &fileName) {
     QFile file;
     file.setFileName(fileName);
     if(!file.open(QIODevice::ReadOnly)){
         qDebug() << "Json filef couldn't be opened/found";
-        return {};
+        return false;
     }
     QByteArray byteArray;
     byteArray = file.readAll();
@@ -105,9 +100,9 @@ QJsonObject JsonParser::openFile(const QString &fileName) {
     jsonRootObject_ = jsonDoc.object();
     if(parseError.error != QJsonParseError::NoError){
         qWarning() << "Parse error at " << parseError.offset << ":" << parseError.errorString();
-        return {};
+        return false;
     }
-    return  jsonRootObject_;
+    return  true;
 
 
 }

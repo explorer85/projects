@@ -11,8 +11,10 @@ class JsonParser : public QObject
 {
     Q_OBJECT
 public:
-    JsonParser(const QString &fileName);
+    //fileName имя файла с json
+    JsonParser();
     virtual ~JsonParser() {}
+    bool openFile(const QString &fileName);
     //прочитать массив parameters и вернуть его в виде вектора
     std::vector<QStringList> readParameters();
     //записать массив parameters в файл
@@ -29,7 +31,7 @@ public:
 private:
     QString fileName_;
     QJsonObject jsonRootObject_;
-    QJsonObject openFile(const QString &fileName);
+
     QString valueToString(QJsonValue val);
     const int shiftSize{7};
     int shiftCount{0};

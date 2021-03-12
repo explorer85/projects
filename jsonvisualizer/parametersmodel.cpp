@@ -44,7 +44,6 @@ bool ParametersModel::setData(const QModelIndex &index, const QVariant &value, i
     switch (role) {
     case setParamRole: {
         auto val = value.toString();
-        //qDebug() <<index.row() <<  index.column() << val;
         parameters_[index.row()][index.column()] = val;
         emit dataChanged(index, index, {Qt::DisplayRole});
     }

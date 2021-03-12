@@ -11,12 +11,16 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    JsonParserPtr jp = std::make_shared<JsonParser>("data.json");
+    JsonParserPtr jp = std::make_shared<JsonParser>();
+    if (!jp->openFile("data.json")) {
+        qDebug() << "file not found!";
+        return 0;
+    }
     ParametersModel pm{jp};
 
     QString jsonString = jp->format();
-    std::vector<QStringList> parameters_ = jp->readParameters();
-    pm.resetModel(parameters_);
+    std::vector<QStringList> parameters = jp->readParameters();
+    pm.resetModel(parameters);
 
 
     QQmlApplicationEngine engine;

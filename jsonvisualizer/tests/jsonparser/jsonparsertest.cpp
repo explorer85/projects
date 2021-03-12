@@ -13,7 +13,8 @@ private slots:
 void JsonParserTest::testReadJson() {
     //empty
     {
-    JsonParser jp{"empty.json"};
+    JsonParser jp;
+    jp.openFile("empty.json");
     QString excpectedString = "{\n}\n";
     QString outString = jp.format();
     QCOMPARE(outString, excpectedString);
@@ -26,7 +27,8 @@ void JsonParserTest::testReadJson() {
 
     //keyvalue
     {
-    JsonParser jp{"keyvalue.json"};
+    JsonParser jp;
+    jp.openFile("keyvalue.json");
     QString excpectedString = "{\n       \"key1\": \"value1\",\n       \"key2\": \"value2\"\n}\n";
     QString outString = jp.format();
     QCOMPARE(outString, excpectedString);
@@ -39,7 +41,8 @@ void JsonParserTest::testReadJson() {
 
     //array of key value
     {
-    JsonParser jp{"arrayofvalue.json"};
+    JsonParser jp;
+    jp.openFile("arrayofvalue.json");
     QString excpectedString = "{\n       \"key1\": [\n              {\n                     \"obj1key1\": \"obj1value1\",\n"
                       "                     \"obj1key2\": \"obj1value2\"\n              },\n              {\n"
                       "                     \"obj2key1\": \"obj2value1\",\n                     \"obj2key2\": \"obj2value2\"\n              }\n       ]\n}\n";
