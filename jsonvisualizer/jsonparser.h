@@ -20,6 +20,7 @@ public:
     QString formatFromFile();
 private:
     QString fileName_;
+    QJsonDocument jsonDoc_;
     QJsonObject openFile(const QString &fileName);
     QString readObject(QJsonObject jsonObj, bool lastObject = true);
     const int shiftSize{7};

@@ -45,15 +45,26 @@ void JsonParser::saveParameters(std::vector<QStringList> params) {
     QJsonArray jsonArray;
     jsonArray = paramsIt->toArray();
 
-    for (auto parIt = params.begin(); parIt != params.end(); parIt++) {
-            QStringList columns = *parIt;
+    for (auto i = 0; i < params.size(); i++) {
+            QJsonObject iObj = jsonArray.at(i).toObject();
+            QStringList columns = params[i];
+            qDebug() << i << "-------------------";
             for (const QString& col : columns) {
-                qDebug() << col;
+                QStringList sl = col.split(":");
+                QString key = sl.takeFirst();
+                QString value = sl.join(":");
+                qDebug() << key << "  " << value;
+                iObj.insert(key, value);
+
              }
-
-
-
     }
+
+    QFile saveFile("save.json");
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qWarning("Couldn't open save file.");
+    }
+    QJsonDocument saveDoc(jsonArray);
+    saveFile.write(saveDoc.toJson());
 }
 
 
@@ -76,15 +87,13 @@ QJsonObject JsonParser::openFile(const QString &fileName) {
     byteArray = file.readAll();
     file.close();
 
-    QJsonParseError parseError;
-    QJsonDocument jsonDoc;
-    jsonDoc = QJsonDocument::fromJson(byteArray, &parseError);
+    QJsonParseError parseError;   
+    jsonDoc_ = QJsonDocument::fromJson(byteArray, &parseError);
     if(parseError.error != QJsonParseError::NoError){
         qWarning() << "Parse error at " << parseError.offset << ":" << parseError.errorString();
         return {};
     }
-
-    return  jsonDoc.object();
+    return  jsonDoc_.object();
 
 
 }
