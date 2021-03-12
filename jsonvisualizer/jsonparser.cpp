@@ -54,8 +54,11 @@ void JsonParser::saveParameters(std::vector<QStringList> params) {
                 QString key = sl.takeFirst();
                 QString value = sl.join(":");
                 qDebug() << key << "  " << value;
-                iObj.insert(key, value);
+                if (key == "value") {
+                   value =  writeObject(value);
+                }
 
+                iObj.insert(key, value);
              }
             jsonArray.insert(i, iObj);
     }
@@ -179,6 +182,11 @@ QString JsonParser::readObject(QJsonObject jsonObj, bool lastObject) {
     json += slashn;
 
     return json;
+
+}
+
+QString JsonParser::writeObject(QString formattedJsonObj) {
+    return "a";
 
 }
 
