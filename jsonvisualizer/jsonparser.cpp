@@ -75,8 +75,9 @@ void JsonParser::saveParameters(std::vector<QStringList> params) {
 QString JsonParser::formatFromFile() {
 
     QJsonObject jsonObj = openFile(fileName_);
+    //можно было воспользоваться стандартной форматирования
+    //но я не ищу легких путей
     QString result = readObject(jsonObj);
-    //result = jsonDoc_.toJson(QJsonDocument::Indented);
     return result;
 }
 
@@ -187,8 +188,10 @@ QString JsonParser::readObject(QJsonObject jsonObj, bool lastObject) {
 }
 
 QJsonObject JsonParser::writeObject(QString formattedJsonObj) {
-    QJsonObject obj;
-    return obj;
+    //немогу уже слишком муторно обратно парсить руками:)
+    QJsonParseError pe;
+    QJsonDocument dd = QJsonDocument::fromJson(formattedJsonObj.toUtf8(), &pe);
+    return dd.object();
 
 }
 

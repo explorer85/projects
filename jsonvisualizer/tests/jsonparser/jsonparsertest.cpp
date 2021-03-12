@@ -17,6 +17,11 @@ void JsonParserTest::testReadJson() {
     QString excpectedString = "{\n}\n";
     QString outString = jp.formatFromFile();
     QCOMPARE(outString, excpectedString);
+
+    QJsonObject jo = jp.writeObject(outString);
+    QJsonDocument saveDoc(jo);
+    QString resOrigString = saveDoc.toJson(QJsonDocument::Compact);
+    QCOMPARE(resOrigString, "");
     }
 
     //keyvalue

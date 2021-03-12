@@ -18,15 +18,15 @@ public:
     void saveParameters(std::vector<QStringList> params);
     //прочитать json из файла
     QString formatFromFile();
-private:
-    QString fileName_;
-    QJsonDocument jsonDoc_;
-    QJsonObject openFile(const QString &fileName);
+
     //преобразовать json обьект в форматированную строку
     QString readObject(QJsonObject jsonObj, bool lastObject = true);
     //преоборазовать форматированную строку в не форматированную строку
     QJsonObject writeObject(QString formattedJsonObj);
-
+private:
+    QString fileName_;
+    QJsonDocument jsonDoc_;
+    QJsonObject openFile(const QString &fileName);
     QString valueToString(QJsonValue val);
     const int shiftSize{7};
     int shiftCount{0};
