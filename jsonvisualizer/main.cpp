@@ -13,11 +13,11 @@ int main(int argc, char *argv[])
 
     qmlRegisterInterface<VectorOfParams>("VectorOfParameters");
 
-    JsonParser jp;
+    JsonParser jp{"data.json"};
     ParametersModel pm{&jp};
 
-    QString jsonString = jp.formatFromFile("data.json");
-    std::vector<QStringList> parameters_ = jp.readParameters("data.json");
+    QString jsonString = jp.formatFromFile();
+    std::vector<QStringList> parameters_ = jp.readParameters();
     pm.resetModel(parameters_);
 
 

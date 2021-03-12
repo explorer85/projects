@@ -11,23 +11,31 @@ private slots:
 };
 
 void JsonParserTest::testReadJson() {
-    JsonParser jp;
     //empty
+    {
+    JsonParser jp{"empty.json"};
     QString excpectedString = "{\n}\n";
-    QString outString = jp.formatFromFile("empty.json");
+    QString outString = jp.formatFromFile();
     QCOMPARE(outString, excpectedString);
+    }
 
     //keyvalue
-    excpectedString = "{\n       \"key1\": \"value1\",\n       \"key2\": \"value2\"\n}\n";
-    outString = jp.formatFromFile("keyvalue.json");
+    {
+    JsonParser jp{"keyvalue.json"};
+    QString excpectedString = "{\n       \"key1\": \"value1\",\n       \"key2\": \"value2\"\n}\n";
+    QString outString = jp.formatFromFile();
     QCOMPARE(outString, excpectedString);
+    }
 
     //array of key value
-    excpectedString = "{\n       \"key1\": [\n              {\n                     \"obj1key1\": \"obj1value1\",\n"
+    {
+    JsonParser jp{"arrayofvalue.json"};
+    QString excpectedString = "{\n       \"key1\": [\n              {\n                     \"obj1key1\": \"obj1value1\",\n"
                       "                     \"obj1key2\": \"obj1value2\"\n              },\n              {\n"
                       "                     \"obj2key1\": \"obj2value1\",\n                     \"obj2key2\": \"obj2value2\"\n              }\n       ]\n}\n";
-    outString = jp.formatFromFile("arrayofvalue.json");
+    QString outString = jp.formatFromFile();
     QCOMPARE(outString, excpectedString);
+    }
 
 }
 

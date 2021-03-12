@@ -4,14 +4,14 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-JsonParser::JsonParser() : QObject(nullptr)
+JsonParser::JsonParser(const QString &fileName) : QObject(nullptr), fileName_(fileName)
 {
 
 }
 
-std::vector<QStringList> JsonParser::readParameters(const QString &fileName) {
+std::vector<QStringList> JsonParser::readParameters() {
     std::vector<QStringList> parameters_;
-    QJsonObject jsonObj = openFile(fileName);
+    QJsonObject jsonObj = openFile(fileName_);
     auto paramsIt = jsonObj.find("parameters");
     QJsonArray jsonArray;
     jsonArray = paramsIt->toArray();
@@ -27,7 +27,7 @@ std::vector<QStringList> JsonParser::readParameters(const QString &fileName) {
                     columns.append(QString(it.key() + ":" + it.value().toString()));
                 }
              }
-            qDebug() << columns;
+            //qDebug() << columns;
             parameters_.emplace_back(columns);
 
         }
@@ -40,12 +40,26 @@ std::vector<QStringList> JsonParser::readParameters(const QString &fileName) {
 
 void JsonParser::saveParameters(std::vector<QStringList> params) {
     qDebug() << "JsonParser::saveParameters" << params.size();
+    QJsonObject jsonObj = openFile(fileName_);
+    auto paramsIt = jsonObj.find("parameters");
+    QJsonArray jsonArray;
+    jsonArray = paramsIt->toArray();
+
+    for (auto parIt = params.begin(); parIt != params.end(); parIt++) {
+            QStringList columns = *parIt;
+            for (const QString& col : columns) {
+                qDebug() << col;
+             }
+
+
+
+    }
 }
 
 
-QString JsonParser::formatFromFile(const QString &jsonString) {
+QString JsonParser::formatFromFile() {
 
-    QJsonObject jsonObj = openFile(jsonString);
+    QJsonObject jsonObj = openFile(fileName_);
     QString result = readObject(jsonObj);
     return result;
 }
