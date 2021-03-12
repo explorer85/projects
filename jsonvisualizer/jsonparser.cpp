@@ -39,12 +39,10 @@ void JsonParser::saveParameters(std::vector<QStringList> params) {
   for (unsigned long i = 0; i < params.size(); i++) {
     QJsonObject iObj = jsonArray.at(i).toObject();
     QStringList columns = params[i];
-    qDebug() << i << "-------------------";
     for (const QString& col : columns) {
       QStringList sl = col.split(":");
       QString key = sl.takeFirst();
       QString value = sl.join(":");
-      qDebug() << key << "  " << value;
       if (key == "value") {
         QJsonObject obj = writeObject(value);
         iObj.insert(key, obj);
