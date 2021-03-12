@@ -1,12 +1,14 @@
 #include "parametersmodel.h"
+#include "jsonparser.h"
 #include <QDebug>
 
-ParametersModel::ParametersModel()
+ParametersModel::ParametersModel(JsonParser *jp) :
+    jp_(jp)
 {
 
 }
 
-int ParametersModel::columnCount(const QModelIndex &parent) const {
+int ParametersModel::columnCount(const QModelIndex &/*parent*/) const {
     return 3;
 
 }
@@ -58,4 +60,9 @@ void ParametersModel::resetModel(std::vector<QStringList> parameters) {
     beginResetModel();
     parameters_ = parameters;
     endResetModel();
+}
+
+Q_INVOKABLE void ParametersModel::saveModelData()  {
+    jp_->saveParameters(parameters_);
+
 }

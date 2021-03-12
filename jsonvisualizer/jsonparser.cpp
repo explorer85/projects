@@ -38,8 +38,8 @@ std::vector<QStringList> JsonParser::readParameters(const QString &fileName) {
 
 }
 
-void JsonParser::saveParameters() {
-    qDebug() << "JsonParser::saveParameters";
+void JsonParser::saveParameters(std::vector<QStringList> params) {
+    qDebug() << "JsonParser::saveParameters" << params.size();
 }
 
 

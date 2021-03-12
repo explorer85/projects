@@ -15,7 +15,7 @@ public:
     //прочитать массив parameters и вернуть его в виде вектора
     std::vector<QStringList> readParameters(const QString &fileName);
     //записать массив parameters в файл
-    Q_INVOKABLE void saveParameters();
+    void saveParameters(std::vector<QStringList> params);
     //прочитать json из файла
     QString formatFromFile(const QString &fileName);
 private:

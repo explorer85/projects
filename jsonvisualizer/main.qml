@@ -55,8 +55,7 @@ Window {
     Button {
         text: "Save to file"
         onClicked: {
-          jsonParser.saveParameters(  paramsModel.modelData() )
-
+          paramsModel.saveModelData();
         }
     }
 
