@@ -141,6 +141,12 @@ QString JsonParser::readObject(const QJsonObject& jsonObj, bool lastObject) {
 
           json += readObject(arrIt->toObject(), flag);
           shiftCount_ -= shiftSize_;
+        } else {
+          QString value = valueToString(*arrIt);
+          json += QString(shiftCount_, ' ') + value;
+          //добавляем запятую
+          if ((arrIt + 1) != jsonArray.end()) json += ",";
+          json += slashn;
         }
       }
       json += QString(shiftCount_, ' ') + "]";
