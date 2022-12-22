@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include <ext/typelist.h>
+#include <type_traits>
 
 
 //структура для хранения списка типов
@@ -46,6 +48,30 @@ struct TypeAt<TypeList<Head, Tail>, i> {
 };
 
 
+//метафункция поиска типа
+template <class TList, class T> struct IndexOf;
+
+template <class T>
+struct IndexOf<NullType, T> {
+  static const int value = -1;
+};
+
+
+template <class T, class Tail>
+struct IndexOf<TypeList<T, Tail>, T> {
+  static const int value = 0;
+};
+
+
+template <class Head, class Tail, class T>
+struct IndexOf<TypeList<Head, Tail>, T> {
+ private:
+  static const int temp = IndexOf<Tail, T>::value;
+ public:
+  static const int value = temp == -1 ? -1 : 1 + temp;
+};
+
+
 
 
 
@@ -72,6 +98,10 @@ int main()
   //обращение по индексу к второиу типу
   using Two = TypeAt<TreeTypesList, 1>::Result;
  // Two two = "5";
+
+  //поиск элемента
+  int index = IndexOf<TreeTypesList, const float>::value;
+  // Two two = "5";
 
 
 
