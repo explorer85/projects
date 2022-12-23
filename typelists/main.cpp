@@ -2,6 +2,7 @@
 
 //#include <ext/typelist.h>
 #include "typelist.h"
+#include "visitor.h"
 
 
 
@@ -11,9 +12,13 @@
 using  TreeTypesList = TypeList<std::string, TypeList<float, TypeList<int, NullType>>>;
 
 
+
+
+
+
 int main()
 {
-
+//////////////////////TYPEELISTS
   //получаем первый тип
   using TreeTypesListFirst = TreeTypesList::head;
   //получаем второй тип
@@ -42,8 +47,26 @@ int main()
   TreeTypesListFirst firsttype = "zzzz";
   TreeTypesListSecond secondtype = 5.0;
 
- // using MyType = TypeList<float, int>::head;
-// MyType t = "5";
+
+
+///////////VISITOR
+//  Visitor<int> vv;
+
+  Visitor<std::tuple<AddTargetMessage, RemoveTargetMessage>>  v;
+
+
+
+  Message *msg = new AddTargetMessage();
+  //v.visit(msg);
+  //mv.visit(*msg);
+
+
+
+//  MessageSender<AddTargetMessage, RemoveTargetMessage> msgSender;
+//  AddTargetMessage msgAdd;
+//  RemoveTargetMessage msgRemove;
+//  msgSender.sendMessage(&msgAdd);
+//  msgSender.sendMessage(&msgRemove);
 
 
   return 0;
