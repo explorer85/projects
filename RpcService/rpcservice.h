@@ -43,18 +43,78 @@ class RemoveTargetMessage : public Message {
 
 
 
-//template <class ...Ts>
+
 class RpcService : public QObject
 {
   Q_OBJECT
  public:
-  explicit RpcService(QObject *parent = nullptr);
+  explicit RpcService(QObject *parent = nullptr) : QObject(parent)
+  {
 
-//  void registerTypes() {
+  }
+template <class ...Ts>
+  void registerTypes() {
+  hana::tuple<Ts...> typesValues;
+  auto tupes = hana::tuple_t<Ts...>;
 
-//  }
+  hana::for_each(typesValues, [&](auto member) {
+    //qDebug() << member.number;
+    qDebug() << member.staticMetaObject.className();
+  });
 
-  //hana::tuple<...Ts> types;
+
+  auto values = hana::transform(tupes, [](auto t) {
+    return hana::just(t);
+  });
+
+
+  auto Ptrs = hana::transform(tupes, [](auto t) {
+    return hana::traits::add_pointer(t);
+  });
+
+  qDebug() << "------------";
+
+
+
+
+  hana::for_each(tupes, [&](auto t) {
+
+    typename decltype(t)::type  vv;
+    qDebug() << vv.staticMetaObject.className();
+    qDebug() <<  (t == hana::type_c<RemoveTargetMessage>);
+
+
+
+  hana::type<RemoveTargetMessage>{};
+
+  //  hana::type_c<RemoveTargetMessage>::is_valid();
+
+   // int a = t;
+  // using T = t::type;
+
+   // t == RemoveTargetMessage;
+   // hana::type<T>
+  //  qDebug() << t;
+    //qDebug() << member.number;
+   // qDebug() << member::staticMetaObject.className();
+  });
+
+
+
+
+  auto resRemove = hana::find(tupes, hana::type_c<RemoveTargetMessage>);
+  auto resAdd = hana::find(tupes, hana::type_c<AddTargetMessage>);
+
+
+
+  qDebug() <<  (resRemove == hana::just(hana::type_c<RemoveTargetMessage>));
+   qDebug() <<  (resAdd == hana::just(hana::type_c<RemoveTargetMessage>));
+
+
+  }
+
+
+
 
 //static constexpr auto message_types = hana::make_tuple(hana::type_c<AddTargetMessage>, hana::type_c<RemoveTargetMessage>);
 
@@ -93,7 +153,7 @@ class RpcService : public QObject
   }
  private:
   int genMessageId(const char* name) {
-    int res;
+    int res = 0;
 
     int i=0;
     char c = '0';

@@ -23,6 +23,9 @@ int main(int argc, char *argv[])
 
 
   RpcService serv;
+  serv.registerTypes<AddTargetMessage, RemoveTargetMessage>();
+
+
   auto data = serv.sendMessage(msg);
   serv.onReceiveMessage(data);
 
