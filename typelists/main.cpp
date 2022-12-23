@@ -52,13 +52,17 @@ int main()
 ///////////VISITOR
 //  Visitor<int> vv;
 
-  Visitor<std::tuple<AddTargetMessage, RemoveTargetMessage>>  v;
+ // Visitor<std::tuple<AddTargetMessage, RemoveTargetMessage>>  v;
 
-
-
-  Message *msg = new AddTargetMessage();
+  AddTargetMessage msg;
+  RemoveTargetMessage msgremove;
   //v.visit(msg);
-  //mv.visit(*msg);
+  MessagesVisitor mv;
+  mv.visit(msg);
+  mv.visit(msgremove);
+
+ //VisitorWithMsgs msgsv;
+ //msgsv.visit(msgremove);
 
 
 

@@ -25,7 +25,7 @@ template <typename T1, typename... Ts>
 class Visitor<std::tuple<T1, Ts...>> : public  Visitor<std::tuple<Ts...>>  {
  public:
   virtual void visit(T1 &msg) {
-    this->visit(static_cast<Message&>(msg));
+
 
     //получаем число для каждого имени типа
    // const int messageId = sizeof... (Ts);
@@ -50,22 +50,20 @@ class MessagesVisitor;
 class Message {
  public:
   virtual void serialize() {}
-  virtual void accept(MessagesVisitor &v) = 0;
+ // virtual void accept(MessagesVisitor &v) = 0;
 
 };
 
 class AddTargetMessage : public Message {
  public:
   int number;
-  void accept(MessagesVisitor &v);
+  //void accept(MessagesVisitor &v);
 };
 
 class RemoveTargetMessage : public Message {
  public:
   int number;
-  //void accept(Visitor &v) {
-  //  v.visit(this);
-  //}
+ // void accept(MessagesVisitor &v);
 };
 
 
@@ -73,6 +71,13 @@ class RemoveTargetMessage : public Message {
 using VisitorWithMsgs = Visitor<std::tuple<AddTargetMessage, RemoveTargetMessage>>;
 
 class MessagesVisitor : public VisitorWithMsgs {
+ public:
+  void visit(AddTargetMessage &msg) override {
+
+  }
+  void visit(RemoveTargetMessage &msg) override {
+
+  }
 
 };
 
