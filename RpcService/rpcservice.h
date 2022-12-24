@@ -9,9 +9,6 @@ namespace hana = boost::hana;
 
 
 
-
-
-
 class Message  {
   Q_GADGET
  public:
@@ -21,97 +18,30 @@ class Message  {
 };
 
 
-class AddTargetMessage : public Message {
-  Q_GADGET
-  Q_PROPERTY(int number MEMBER number)
-  Q_PROPERTY(QString name MEMBER name)
- public:
-  int number{0};
-  QString name;
-  virtual void printName() override {
-   // qDebug() << "AddTargetMessage";
-  }
-};
-
-class RemoveTargetMessage : public Message {
-  Q_GADGET
-  Q_PROPERTY(int number MEMBER number)
- public:
-  int number{0};
-};
 
 
 
 
-
-class RpcService : public QObject
-{
-  Q_OBJECT
- public:
-  explicit RpcService(QObject *parent = nullptr) : QObject(parent)
-  {
-
-  }
 template <class ...Ts>
-  void registerTypes() {
-  hana::tuple<Ts...> typesValues;
-  auto tupes = hana::tuple_t<Ts...>;
+class RpcService
+{
+ public:
+  explicit RpcService() {
+    // qDebug() << sizeof...(types);
 
-  hana::for_each(typesValues, [&](auto member) {
-    //qDebug() << member.number;
-    qDebug() << member.staticMetaObject.className();
-  });
-
-
-  auto values = hana::transform(tupes, [](auto t) {
-    return hana::just(t);
-  });
-
-
-  auto Ptrs = hana::transform(tupes, [](auto t) {
-    return hana::traits::add_pointer(t);
-  });
-
-  qDebug() << "------------";
-
-
-
-
-  hana::for_each(tupes, [&](auto t) {
-
-    typename decltype(t)::type  vv;
-    qDebug() << vv.staticMetaObject.className();
-    qDebug() <<  (t == hana::type_c<RemoveTargetMessage>);
-
-
-
-  hana::type<RemoveTargetMessage>{};
-
-  //  hana::type_c<RemoveTargetMessage>::is_valid();
-
-   // int a = t;
-  // using T = t::type;
-
-   // t == RemoveTargetMessage;
-   // hana::type<T>
-  //  qDebug() << t;
-    //qDebug() << member.number;
-   // qDebug() << member::staticMetaObject.className();
-  });
-
-
-
-
-  auto resRemove = hana::find(tupes, hana::type_c<RemoveTargetMessage>);
-  auto resAdd = hana::find(tupes, hana::type_c<AddTargetMessage>);
-
-
-
-  qDebug() <<  (resRemove == hana::just(hana::type_c<RemoveTargetMessage>));
-   qDebug() <<  (resAdd == hana::just(hana::type_c<RemoveTargetMessage>));
-
+    //цикл п осписку типов
+    hana::for_each(types_, [&](auto t) {
+     // typename decltype(t)::type vv;
+    //  qDebug() << vv.staticMetaObject.className();
+     // qDebug() << (t == hana::type_c<RemoveTargetMessage>);
+      qDebug() << genMessageId(decltype(t)::type::staticMetaObject.className());
+    });
 
   }
+
+
+  hana::tuple<hana::type<Ts>...> types_;
+  hana::tuple<Ts...> typesValues_;
 
 
 
@@ -150,6 +80,25 @@ template <class ...Ts>
     qDebug() << id;
     //выбрать тип для id
 
+    hana::for_each(types_, [&](auto t) {
+      int typeIntId =  genMessageId(decltype(t)::type::staticMetaObject.className());
+      if (typeIntId == id) {
+        typename decltype(t)::type vv;
+
+        QMetaObject classMetaObject = decltype(t)::type::staticMetaObject;
+        QStringList properties;
+        for(int i = classMetaObject.propertyOffset(); i < classMetaObject.propertyCount(); ++i) {
+          properties << QString::fromLatin1(classMetaObject.property(i).name());
+          QVariant prop;
+          dataStream >> prop;
+          classMetaObject.property(i).writeOnGadget(&vv, prop);
+        }
+        qDebug() << vv.staticMetaObject.className() << vv.number;
+      }
+    });
+
+
+
   }
  private:
   int genMessageId(const char* name) {
@@ -165,8 +114,92 @@ template <class ...Ts>
     return res;
   }
 
- signals:
+ private:
+
+
 
 };
+
+
+
+
+
+
+//void registerTypes() {
+//  auto tupes = hana::tuple_t<Ts...>;
+
+//  hana::for_each(typesValues_, [&](auto member) {
+//    //qDebug() << member.number;
+//    qDebug() << member.staticMetaObject.className();
+//  });
+
+
+//  auto values = hana::transform(tupes, [](auto t) {
+//    return hana::just(t);
+//  });
+
+
+//  auto Ptrs = hana::transform(tupes, [](auto t) {
+//    return hana::traits::add_pointer(t);
+//  });
+
+//  qDebug() << "------------";
+
+
+
+
+//  hana::for_each(tupes, [&](auto t) {
+
+//    typename decltype(t)::type  vv;
+//    qDebug() << vv.staticMetaObject.className();
+//    qDebug() <<  (t == hana::type_c<RemoveTargetMessage>);
+
+
+
+//    hana::type<RemoveTargetMessage>{};
+
+//    //  hana::type_c<RemoveTargetMessage>::is_valid();
+
+//    // int a = t;
+//    // using T = t::type;
+
+//    // t == RemoveTargetMessage;
+//    // hana::type<T>
+//    //  qDebug() << t;
+//    //qDebug() << member.number;
+//    // qDebug() << member::staticMetaObject.className();
+//  }
+//                 );
+
+
+
+
+//  auto resRemove = hana::find(tupes, hana::type_c<RemoveTargetMessage>);
+//  auto resAdd = hana::find(tupes, hana::type_c<AddTargetMessage>);
+
+
+
+//  qDebug() <<  (resRemove == hana::just(hana::type_c<RemoveTargetMessage>));
+//  qDebug() <<  (resAdd == hana::just(hana::type_c<RemoveTargetMessage>));
+
+
+//}
+
+
+
+
+//////////////////////////
+
+////преобразованиеи в список типов
+//auto to_types = [](auto vals) {
+//  namespace hana = boost::hana;
+//  return decltype(hana::transform(
+//      hana::to_tuple(std::declval<decltype(vals)>()), hana::typeid_)){};
+//};
+
+//// types_ = to_types(typesValues_);
+
+
+
 
 
