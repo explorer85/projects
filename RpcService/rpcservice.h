@@ -5,7 +5,9 @@
 #include <QDataStream>
 #include <QMetaProperty>
 #include <boost/hana.hpp>
+#include "MessagesHandler.h"
 namespace hana = boost::hana;
+
 
 
 
@@ -13,7 +15,7 @@ template <class ...Ts>
 class RpcService
 {
  public:
-  explicit RpcService() {
+  explicit RpcService(MessagesHandler *msgHandler) : msgHandler_(msgHandler) {
   }
 
   hana::tuple<hana::type<Ts>...> types_;
@@ -62,6 +64,7 @@ class RpcService
           dataStream >> prop;
           classMetaObject.property(i).writeOnGadget(&message, prop);
         }
+        msgHandler_->handleMessage(&message);
         qDebug() << "message received" <<  message.staticMetaObject.className() << message.number;
       }
     });
@@ -70,6 +73,8 @@ class RpcService
 
   }
  private:
+  MessagesHandler *msgHandler_{nullptr};
+
   int genMessageId(const char* name) {
     int res = 0;
     int i = 0;
@@ -82,7 +87,7 @@ class RpcService
     return res;
   }
 
- private:
+
 
 
 

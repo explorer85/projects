@@ -4,13 +4,7 @@
 #include <QDebug>
 #include <QMetaProperty>
 
-class Message  {
-  Q_GADGET
- public:
-  virtual void printName() {}
-  virtual ~Message() {}
-
-};
+#include "Message.h"
 
 
 class AddTargetMessage : public Message {
