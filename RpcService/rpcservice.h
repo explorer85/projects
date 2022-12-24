@@ -9,14 +9,6 @@ namespace hana = boost::hana;
 
 
 
-class Message  {
-  Q_GADGET
- public:
-  virtual void printName() {}
-  virtual ~Message() {}
-
-};
-
 
 
 
@@ -34,7 +26,7 @@ class RpcService
      // typename decltype(t)::type vv;
     //  qDebug() << vv.staticMetaObject.className();
      // qDebug() << (t == hana::type_c<RemoveTargetMessage>);
-      qDebug() << genMessageId(decltype(t)::type::staticMetaObject.className());
+   //   qDebug() << genMessageId(decltype(t)::type::staticMetaObject.className());
     });
 
   }
