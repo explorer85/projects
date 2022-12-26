@@ -4,8 +4,6 @@
 #include <QDebug>
 #include <QMetaProperty>
 
-#include "Message.h"
-
 
 class AddTargetMessage {
   Q_GADGET
