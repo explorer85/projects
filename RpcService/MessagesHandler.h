@@ -2,20 +2,11 @@
 
 #include "Message.h"
 
-//class MessagesHandler {
-// public:
-//  virtual void handleMessage(Message* msg) = 0;
-
-//};
-
-
-
 
 template <typename T>
 class MessagesHandler {
 
 };
-
 
 template <typename T1, typename... Ts>
 class MessagesHandler<std::tuple<T1, Ts...>> : public  MessagesHandler<std::tuple<Ts...>>  {
@@ -30,7 +21,7 @@ class MessagesHandler<std::tuple<T1, Ts...>> : public  MessagesHandler<std::tupl
 template <>
 class MessagesHandler<std::tuple<>> {
  public:
-  virtual void visit(Message*) {
+  virtual void visit(void*) {
 
 
   };

@@ -7,40 +7,27 @@
 #include "Message.h"
 
 
-class AddTargetMessage : public Message {
+class AddTargetMessage {
   Q_GADGET
   Q_PROPERTY(int number MEMBER number)
   Q_PROPERTY(QString name MEMBER name)
  public:
   int number{0};
   QString name;
-  void accept(MessagesHandler &/*v*/) override {
-
-  }
-  virtual void printName() override {
-    // qDebug() << "AddTargetMessage";
-  }
 };
 
-class RemoveTargetMessage : public Message {
+class RemoveTargetMessage  {
+  Q_GADGET
+  Q_PROPERTY(int number MEMBER number)
+ public:
+  int number{0};
+};
+
+
+class UpdateTargetMessage  {
   Q_GADGET
   Q_PROPERTY(int number MEMBER number)
  public:
   int number{0};
 
-  void accept(MessagesHandler &/*v*/) override {
-
-  }
-};
-
-
-class UpdateTargetMessage : public Message {
-  Q_GADGET
-  Q_PROPERTY(int number MEMBER number)
- public:
-  int number{0};
-
-  void accept(MessagesHandler &/*v*/) override {
-
-  }
 };
