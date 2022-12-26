@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
     serv.onReceiveMessage(data);
   }
 
-  // AddTargetMessage
+  // RemoveTargetMessage
   {
     RemoveTargetMessage msg;
     msg.number = 10;
