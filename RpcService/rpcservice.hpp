@@ -8,11 +8,12 @@
 #include "MessagesHandler.h"
 namespace hana = boost::hana;
 
-template <class... Ts>
+template <class Ts>
 class RpcService {
  public:
-  explicit RpcService(MessagesHandler<std::tuple<Ts...>>* msgHandler)
-      : msgHandler_(msgHandler) {}
+  explicit RpcService(MessagesHandler<Ts>* msgHandler)
+      : msgHandler_(msgHandler)
+  {}
 
   template <class T>
   QByteArray sendMessage(T& msg) {
@@ -58,7 +59,7 @@ class RpcService {
           classMetaObject.property(i).writeOnGadget(&message, prop);
         }
 
-        msgHandler_->visit(&message);
+        msgHandler_->handle(&message);
 
         qDebug() << QString("message %1 %2 received").arg(message.staticMetaObject.className()).arg(id);
       }
@@ -66,8 +67,9 @@ class RpcService {
   }
 
  private:
-  MessagesHandler<std::tuple<Ts...>>* msgHandler_{nullptr};
-  hana::tuple<hana::type<Ts>...> types_;
+  MessagesHandler<Ts>* msgHandler_{nullptr};
+  Ts types_;
+
 
   int genMessageId(const char* name) {
     int res = 0;

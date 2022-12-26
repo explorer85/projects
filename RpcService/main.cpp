@@ -3,16 +3,16 @@
 #include <QDebug>
 #include "TargetMessages.h"
 
-using MessagesHandlerWithMsgs =
-    MessagesHandler<std::tuple<AddTargetMessage, RemoveTargetMessage>>;
+using MessagesTuple = hana::tuple<hana::type<AddTargetMessage>, hana::type<RemoveTargetMessage>>;
 
-class TargetMessagesHandler : public MessagesHandlerWithMsgs {
+
+class TargetMessagesHandler : public MessagesHandler<MessagesTuple> {
  public:
-  void visit(AddTargetMessage* msg) override {
+  void handle(AddTargetMessage* msg) override {
     qDebug() << "handle AddTargetMessage" << msg->name << msg->number;
   };
 
-  void visit(RemoveTargetMessage* msg) override {
+  void handle(RemoveTargetMessage* msg) override {
     qDebug() << "handle RemoveTargetMessage" << msg->number;
   };
 };
@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
   QCoreApplication a(argc, argv);
 
   TargetMessagesHandler targetMessagesHandler;
-  RpcService<AddTargetMessage, RemoveTargetMessage> serv{
+  RpcService<MessagesTuple> serv{
       &targetMessagesHandler};
 
   // AddTargetMessage
