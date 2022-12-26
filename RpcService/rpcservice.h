@@ -11,15 +11,19 @@ namespace hana = boost::hana;
 
 
 
+
+
+
 template <class ...Ts>
 class RpcService
 {
  public:
-  explicit RpcService(MessagesHandler *msgHandler) : msgHandler_(msgHandler) {
+  explicit RpcService(MessagesHandler<std::tuple<Ts...>> *msgHandler) : msgHandler_(msgHandler) {
   }
 
+    MessagesHandler<std::tuple<Ts...>> *msgHandler_{nullptr};
+
   hana::tuple<hana::type<Ts>...> types_;
-  hana::tuple<Ts...> typesValues_;
 
   template <class T>
   QByteArray sendMessage(T& msg) {
@@ -41,6 +45,7 @@ class RpcService
     qDebug() << "message sended";
     return result;
   }
+
   void onReceiveMessage(QByteArray data) {
 
     QDataStream dataStream(&data, QIODevice::ReadOnly);
@@ -64,7 +69,14 @@ class RpcService
           dataStream >> prop;
           classMetaObject.property(i).writeOnGadget(&message, prop);
         }
-        msgHandler_->handleMessage(&message);
+
+
+
+       // auto msgtype = hana::at(types_, hana::size_c<0>);
+       // typename decltype(msgtype)::type addmessage;
+        msgHandler_->visit(&message);
+
+
         qDebug() << "message received" <<  message.staticMetaObject.className() << message.number;
       }
     });
@@ -73,7 +85,7 @@ class RpcService
 
   }
  private:
-  MessagesHandler *msgHandler_{nullptr};
+
 
   int genMessageId(const char* name) {
     int res = 0;
@@ -182,6 +194,9 @@ class RpcService
 //};
 
 //// types_ = to_types(typesValues_);
+///
+///
+///   //hana::tuple<Ts...> typesValues_;
 
 
 

@@ -14,6 +14,9 @@ class AddTargetMessage : public Message {
  public:
   int number{0};
   QString name;
+  void accept(MessagesHandler &/*v*/) override {
+
+  }
   virtual void printName() override {
     // qDebug() << "AddTargetMessage";
   }
@@ -24,4 +27,20 @@ class RemoveTargetMessage : public Message {
   Q_PROPERTY(int number MEMBER number)
  public:
   int number{0};
+
+  void accept(MessagesHandler &/*v*/) override {
+
+  }
+};
+
+
+class UpdateTargetMessage : public Message {
+  Q_GADGET
+  Q_PROPERTY(int number MEMBER number)
+ public:
+  int number{0};
+
+  void accept(MessagesHandler &/*v*/) override {
+
+  }
 };
