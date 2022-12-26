@@ -1,4 +1,4 @@
-#include <rpcservice.h>
+#include <rpcservice.hpp>
 #include <QCoreApplication>
 #include <QDebug>
 #include "TargetMessages.h"
