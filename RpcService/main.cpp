@@ -1,42 +1,42 @@
 #include <rpcservice.hpp>
 #include <QCoreApplication>
 #include <QDebug>
-#include "TargetMessages.h"
+#include "Messages.h"
 
-using MessagesTuple = hana::tuple<hana::type<AddTargetMessage>, hana::type<RemoveTargetMessage>>;
+using MessagesTuple = hana::tuple<hana::type<AddMessage>, hana::type<RemoveMessage>>;
 
 
-class TargetMessagesHandler : public MessagesHandler<MessagesTuple> {
+class ChatMessagesHandler : public MessagesHandler<MessagesTuple> {
  public:
-  void handle(AddTargetMessage* msg) override {
-    qDebug() << "handle AddTargetMessage" << msg->name << msg->number;
+  void handle(AddMessage* msg) override {
+    qDebug() << "handle AddMessage" << msg->id << msg->text;
   };
 
-  void handle(RemoveTargetMessage* msg) override {
-    qDebug() << "handle RemoveTargetMessage" << msg->number;
+  void handle(RemoveMessage* msg) override {
+    qDebug() << "handle RemoveMessage" << msg->id;
   };
 };
 
 int main(int argc, char* argv[]) {
   QCoreApplication a(argc, argv);
 
-  TargetMessagesHandler targetMessagesHandler;
+  ChatMessagesHandler chatMessagesHandler;
   RpcService<MessagesTuple> serv{
-      &targetMessagesHandler};
+      &chatMessagesHandler};
 
-  // AddTargetMessage
+  // AddMessage
   {
-    AddTargetMessage msg;
-    msg.number = 5;
-    msg.name = "Airplane";
+    AddMessage msg;
+    msg.id = 5;
+    msg.text = "Hello";
     auto data = serv.sendMessage(msg);
     serv.onReceiveMessage(data);
   }
 
-  // RemoveTargetMessage
+  // RemoveMessage
   {
-    RemoveTargetMessage msg;
-    msg.number = 10;
+    RemoveMessage msg;
+    msg.id = 5;
     auto data = serv.sendMessage(msg);
     serv.onReceiveMessage(data);
   }

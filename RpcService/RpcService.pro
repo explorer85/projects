@@ -23,6 +23,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    Messages.h \
     MessagesHandler.h \
-    TargetMessages.h \
     rpcservice.hpp
